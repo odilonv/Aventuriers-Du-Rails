@@ -1,0 +1,134 @@
+@startuml
+
+skinparam nodesep 100
+skinparam ranksep 150
+
+package fr.umontpellier.iut.vues {
+
+class ServiceDuJeu {
+}
+
+class VueAutresJoueurs {
++ bindJoueurCourant() : void
+# setJoueurCourantChangeListener(ChangeListener<Joueur>) : void
+}
+
+class VueCarteWagon {
+}
+
+
+class VueChoixJoueurs {
+    - nomsJoueurs : ObservableList<String
+    + setNomsDesJoueursDefinisListener(ListChangeListener) : void
+    + setChangementDuNombreDeJoueursListener(ListChangeListener) : void
+}
+
+class VueDestination {
+    - destination : Destination
+
+    + getDestination() : Destination
+    + setDestinationChoisieListener() : void
+}
+
+
+class VueDuJeu {
+    + creerBindings() : void
+    # setcartesWagonsVisiblesListener(ListChangeListener<CouleurWagon>) : void
+    # setDestinationsChangedListener(ListChangeListener<Destination>) : void
+    # setMiseAJourCartesWagonsListener(ListChangeListener<CouleurWagon>) : void
+}
+
+class VueJoueurCourant {
+    + bindJoueurCourant() : void
+    # setJoueurCourantChangeListener(ChangeListener<Joueur>) : void
+}
+
+class VuePlateau {
+}
+
+
+}
+
+class RailsIHM{
+    + start(primaryStage:Stage): void
+    + demarrerPartie() : void
+    + demarrerServiceJeu() : void
+    + onStopGame() : void
+
+    + {static} main(String args[]) : void
+}
+
+interface IJeu {
+    + instructionProperty() : ObjectProperty<String>
+    + getJoueurs() : List<Joueur>
+    + addInput(String message) : void
+    + cartesWagonVisiblesProperty() : ObservableList<CouleurWagon>
+    + destinationsInitialesProperty() : ObservableList<Destination>
+    + joueurCourantProperty() : ObjectProperty<Joueur>
+    + getVilleParNom(String nom) : Ville
+    + getRoutes() : List<Route>
+    + quandPasserSectionne() : void
+    + quandWagonPioche() :  void
+    + quandDestinationPiochee() : void
+    + quandVilleOuRouteChoisie(String nom) : void
+    + quandDestinationChoisie(String destination) : void
+    + quandCarteWagonChoisie(CouleurWagon couleurWagon) : void
+}
+
+
+package fr.umontpellier.iut.rails {
+
+class Jeu {
+}
+
+class Joueur {
+}
+
+enum CouleurWagon{
+}
+
+
+class Route {
+}
+
+class Tunnel {
+}
+
+class Ferry {
+}
+
+class Destination {
+}
+
+class Ville {
+}
+
+
+
+Route <|-- Tunnel
+Route <|-- Ferry
+
+Joueur "2..5  "--* Jeu
+Joueur -left->"*" CouleurWagon
+Joueur "0..1"--"*" Destination
+Joueur "0..1"<- Route
+Ville "0..3"-->"0..1"  Joueur
+
+Jeu -->"*" Destination
+Jeu -right->"*" Route
+Jeu ..|> IJeu
+
+Route --> Ville
+Route --> Ville
+
+ServiceDuJeu --> Jeu
+VueDuJeu --> IJeu
+
+RailsIHM --> VueDuJeu
+RailsIHM --> VueChoixJoueurs
+RailsIHM --> ServiceDuJeu
+
+}
+
+
+@enduml
