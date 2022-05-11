@@ -89,7 +89,7 @@ Si vous le jugez nécessaire, vous pouvez ajouter d'autres propriétés que cell
 ### Exécution des écouteurs de changement sur le thread de l'interface graphique
 La mise à jour des propriétés se fait dans la partie interne du jeu : par exemple, le changement du joueur courant se passe en interne dans le jeu. En conséquence d'un tel changement, les composants graphiques vont s'actualiser : dans le même exemple, les cartes du nouveau joueur courant vont être présentées. Cette mise à jour graphique doit **obligatoirement** se faire sur le thread de l'interface graphique. Comme le thread de l'interface graphique tourne en parallèle de l'exécution de la partie interne, il traite à son rythme les tâches qui lui sont affectées. Il faut donc ajouter les tâches nouvelles dans sa file d'attente. Par conséquent, à chaque début du code d'un gestionnaire de changement d'une propriété, vous ajouterez le code suivant :
 ```
-Platform.runLater() -> {
+Platform.runLater( () -> {
     // ici le code de mise à jour de l'interface graphique
 }
 ```
