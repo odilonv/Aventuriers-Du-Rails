@@ -24,14 +24,15 @@ public class VueDuJeu extends VBox {
     private VuePlateau plateau;
     private VBox destinations;
     private Button passer;
+    private VueJoueurCourant joueurCourant;
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
         plateau = new VuePlateau();
         destinations = new VBox();
         passer = new Button("Passer");
-
-        getChildren().addAll(destinations, passer);
+        joueurCourant = new VueJoueurCourant();
+        getChildren().addAll(destinations, passer, joueurCourant);
     }
 
     public IJeu getJeu() {
@@ -44,24 +45,25 @@ public class VueDuJeu extends VBox {
             @Override
             public void onChanged(Change<? extends IDestination> change) {
                 Platform.runLater(() -> {
-                change.next();
-                if(change.wasAdded()){
-                    for(IDestination d : change.getAddedSubList()) {
-                        System.out.println(d.getNom() + " a ete ajoute");
-                        destinations.getChildren().add(new Label(d.getNom()));
+                    while(change.next()) {
+                        if (change.wasAdded()) {
+                            for (IDestination d : change.getAddedSubList()) {
+                                System.out.println(d.getNom() + " a ete ajoute");
+                                destinations.getChildren().add(new Label(d.getNom()));
+                            }
+                        } else if (change.wasRemoved()) {
+                            for (IDestination d : change.getRemoved()) {
+                                System.out.println(d.getNom() + " a ete supprime");
+                                destinations.getChildren().remove(trouveLabelDestination(d));
+                            }
+                        }
                     }
-                }
-                else if(change.wasRemoved()){
-                    for(IDestination d : change.getAddedSubList()) {
-                        System.out.println(d.getNom() + " a ete supprime");
-                        destinations.getChildren().remove(trouveLabelDestination(d));
-                    }
-                }
                 });
             }
         };
         jeu.destinationsInitialesProperty().addListener(affichageDest);
         passer.setOnAction(passer -> jeu.passerAEteChoisi());
+        joueurCourant.creerBindings();
     }
 
     public Label trouveLabelDestination(IDestination dest){
