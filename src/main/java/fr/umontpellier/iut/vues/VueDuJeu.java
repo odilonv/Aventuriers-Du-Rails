@@ -2,19 +2,12 @@ package fr.umontpellier.iut.vues;
 
 import fr.umontpellier.iut.IDestination;
 import fr.umontpellier.iut.IJeu;
-import fr.umontpellier.iut.rails.Destination;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-
-import java.util.List;
-import java.util.SimpleTimeZone;
 
 /**
  * Cette classe correspond à la fenêtre principale de l'application.
@@ -47,10 +40,10 @@ public class VueDuJeu extends VBox {
 
     public void creerBindings() {
         //ObservableList<Destination> affichageDestinations = destinationsInitialesProperty();
-
         ListChangeListener<IDestination> affichageDest= new ListChangeListener<IDestination>() {
             @Override
             public void onChanged(Change<? extends IDestination> change) {
+                Platform.runLater(() -> {
                 change.next();
                 if(change.wasAdded()){
                     for(IDestination d : change.getAddedSubList()) {
@@ -61,23 +54,25 @@ public class VueDuJeu extends VBox {
                 else if(change.wasRemoved()){
                     for(IDestination d : change.getAddedSubList()) {
                         System.out.println(d.getNom() + " a ete supprime");
+                        destinations.getChildren().remove(trouveLabelDestination(d));
                     }
                 }
+                });
             }
         };
         jeu.destinationsInitialesProperty().addListener(affichageDest);
-
         passer.setOnAction(passer -> jeu.passerAEteChoisi());
+    }
 
-
-
-
-
-
-
-        /*Button b1 = new Button("Passer");
-
-        getChildren().add(b1);*/
+    public Label trouveLabelDestination(IDestination dest){
+        Label solution = null;
+        for(Node label : destinations.getChildren()){
+            Label l = (Label) label;
+            if(l.getText().equals(dest.getNom())){
+                solution=l;
+            }
+        }
+        return solution;
     }
 
 }
