@@ -21,4 +21,6 @@ public class VueCarteWagon extends VBox {
         return couleurWagon;
     }
 
+
+
 }
