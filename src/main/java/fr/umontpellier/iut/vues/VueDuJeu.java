@@ -28,16 +28,18 @@ public class VueDuJeu extends GridPane {
     private HBox destinations;
     private Button passer;
     private VueJoueurCourant joueurCourant;
+    private Button pioche;
+    private Button piocheDest;
 
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
 
-        Image bg = new Image("images/backgrounds/TRAIN.jpg");
+        Image bg = new Image("images/backgrounds/LUI.jpg");
         BackgroundImage bImg = new BackgroundImage(bg,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
+                BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         Background bGround = new Background(bImg);
         setBackground(bGround);
@@ -46,25 +48,48 @@ public class VueDuJeu extends GridPane {
         destinations= new HBox();
         passer = new Button("Passer");
         joueurCourant = new VueJoueurCourant();
+
+        VBox pioches = new VBox();
+        pioche = new Button();
+        ImageView imageView = new ImageView("images/wagons.png");
+        imageView.setPreserveRatio(true);
+        imageView.setFitHeight(80);
+        pioche.setGraphic(imageView);
+        pioche.setStyle("-fx-background-color:transparent");
+
+        piocheDest = new Button();
+        ImageView img = new ImageView("images/destinations.png");
+        img.setPreserveRatio(true);
+        img.setFitHeight(80);
+        piocheDest.setGraphic(img);
+        piocheDest.setStyle("-fx-background-color:transparent");
+
+        pioches.setAlignment(Pos.CENTER);
+        pioches.getChildren().addAll(pioche, piocheDest);
+
         //getChildren().addAll( destinations, passer, joueurCourant);
         ColumnConstraints premiercol=new ColumnConstraints();
-        premiercol.setPercentWidth(20);
         ColumnConstraints deuxiemecol=new ColumnConstraints();
-        deuxiemecol.setPercentWidth(70);
         ColumnConstraints troisiemecol=new ColumnConstraints();
+        premiercol.setPercentWidth(22);
+        deuxiemecol.setPercentWidth(68);
         troisiemecol.setPercentWidth(10);
+
         RowConstraints premierl=new RowConstraints();
-        premierl.setPercentHeight(5);
         RowConstraints deuxiemel=new RowConstraints();
-        deuxiemel.setPercentHeight(80);
         RowConstraints troisiemel=new RowConstraints();
-        troisiemel.setPercentHeight(15);
+        premierl.setPercentHeight(5);
+        deuxiemel.setPercentHeight(90);
+        troisiemel.setPercentHeight(10);
+
         getColumnConstraints().addAll(premiercol, deuxiemecol, troisiemecol);
         getRowConstraints().addAll(premierl,deuxiemel,troisiemel);
         add(destinations,1,2);
         add(passer,2,2);
         add(joueurCourant,0,1);
         add(plateau,1,1);
+        add(pioches, 2,1);
+
     }
 
     public IJeu getJeu() {
@@ -95,6 +120,8 @@ public class VueDuJeu extends GridPane {
         };
         jeu.destinationsInitialesProperty().addListener(affichageDest);
         passer.setOnAction(passer -> jeu.passerAEteChoisi());
+        pioche.setOnAction(pioche -> jeu.uneCarteWagonAEtePiochee());
+        piocheDest.setOnAction(piocheDest -> jeu.uneDestinationAEtePiochee());
         joueurCourant.creerBindings();
     }
 
