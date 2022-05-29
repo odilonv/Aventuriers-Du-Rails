@@ -22,52 +22,41 @@ import javafx.scene.layout.*;
 public class VueCarteWagon extends VBox {
 
     private ICouleurWagon couleurWagon;
-    private VBox vueCartes;
+    private Button button;
+    private ImageView imageView;
 
-    public VueCarteWagon(ICouleurWagon couleurWagon) {
+    public VueCarteWagon(ICouleurWagon couleurWagon, boolean bool) {
         this.couleurWagon = couleurWagon;
-        Button button = new Button();
-        ImageView imageView = new ImageView("images/cartesWagons/carte-wagon-"+couleurWagon.toString().toUpperCase()+".png");
+        button = new Button();
+        imageView = new ImageView("images/cartesWagons/carte-wagon-"+couleurWagon.toString().toUpperCase()+".png");
         imageView.setPreserveRatio(true);
         imageView.setFitHeight(50);
         button.setGraphic(imageView);
         button.setStyle("-fx-background-color:transparent");
         button.setAlignment(Pos.CENTER);
-
         button.setOnMouseEntered(mouseEvent -> button.setStyle("-fx-background-color:"+couleurEnglish(couleurWagon.toString())));
         button.setOnMouseExited(mouseEvent -> button.setStyle("-fx-background-color:transparent"));
+        if(bool){
+            button.setOnMouseEntered(mouseEvent -> imageView.setFitHeight(90));
+            button.setOnMouseExited(mouseEvent -> imageView.setFitHeight(70));
+            button.setOnMouseClicked(cartesVisibles -> ((VueDuJeu) getScene().getRoot()).getJeu().uneCarteWagonAEteChoisie(getCouleurWagon()));
+
+        }
         getChildren().add(button);
 
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public Button getButton() {
+        return button;
     }
 
     public ICouleurWagon getCouleurWagon() {
         return couleurWagon;
     }
-
-    /**public void creerBindings() {
-        ListChangeListener<ICouleurWagon> listChangeListener = new ListChangeListener<ICouleurWagon>() {
-            @Override
-            public void onChanged(Change<? extends ICouleurWagon> change) {
-                Platform.runLater(() -> {
-                            while(change.next()) {
-                                if (change.wasAdded()) {
-                                    for (ICouleurWagon d : change.getAddedSubList()) {
-                                        System.out.println(d.toString().toUpperCase() + " LALALALLALALALALA");
-                                        Button button = new Button();
-                                        ImageView imageView = new ImageView("images/cartesWagons/carte-wagon-" + change.toString().toUpperCase() + ".png");
-                                        imageView.setPreserveRatio(true);
-                                        imageView.setFitHeight(80);
-                                        button.setGraphic(imageView);
-                                        vueCartes.getChildren().add(button);
-                                    }
-                                }
-                            }
-
-                });
-            }
-        };
-        //((VueDuJeu) getScene().getRoot()).getJeu().().addListener(changeListener);
-    }*/
 
     public String couleurEnglish(String c) {
         switch (c){

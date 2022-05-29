@@ -1,7 +1,9 @@
 package fr.umontpellier.iut.vues;
 
+import fr.umontpellier.iut.ICouleurWagon;
 import fr.umontpellier.iut.IDestination;
 import fr.umontpellier.iut.IJeu;
+import fr.umontpellier.iut.rails.CouleurWagon;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Pos;
@@ -14,6 +16,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import java.util.Objects;
 
 /**
  * Cette classe correspond à la fenêtre principale de l'application.
@@ -29,6 +33,7 @@ public class VueDuJeu extends GridPane {
     private IJeu jeu;
     private VuePlateau plateau;
     private HBox destinations;
+    private HBox cartesVisibles;
     private Button passer;
     private VueJoueurCourant joueurCourant;
     private Button pioche;
@@ -49,8 +54,14 @@ public class VueDuJeu extends GridPane {
 
         plateau = new VuePlateau();
         destinations= new HBox();
+        destinations.setSpacing(10);
+        destinations.setAlignment(Pos.CENTER);
         passer = new Button("PASSER\nSON\nTOUR");
         joueurCourant = new VueJoueurCourant();
+
+        cartesVisibles = new HBox();
+        cartesVisibles.setPrefSize(500,200);
+        cartesVisibles.setAlignment(Pos.TOP_RIGHT);
 
         VBox pioches = new VBox();
         pioche = new Button();
@@ -59,6 +70,8 @@ public class VueDuJeu extends GridPane {
         imageView.setFitHeight(80);
         pioche.setGraphic(imageView);
         pioche.setStyle("-fx-background-color:transparent");
+        pioche.setOnMouseEntered(mouseEvent -> imageView.setFitHeight(82));
+        pioche.setOnMouseExited(mouseEvent -> imageView.setFitHeight(80));
 
         piocheDest = new Button();
         ImageView img = new ImageView("images/destinations.png");
@@ -66,7 +79,8 @@ public class VueDuJeu extends GridPane {
         img.setFitHeight(80);
         piocheDest.setGraphic(img);
         piocheDest.setStyle("-fx-background-color:transparent");
-
+        piocheDest.setOnMouseEntered(mouseEvent -> img.setFitHeight(82));
+        piocheDest.setOnMouseExited(mouseEvent -> img.setFitHeight(80));
 
         DropShadow dropShadow = new DropShadow();
         dropShadow.setRadius(20.0);
@@ -75,11 +89,13 @@ public class VueDuJeu extends GridPane {
         dropShadow.setColor(Color.web("#F7E6BC"));
         passer.setAlignment(Pos.CENTER);
         passer.setPrefSize(120,100);
-        passer.setMaxSize(120,100);
+        passer.setMaxSize(125,105);
         passer.setFont(Font.font("Georgia", 20));
         passer.setStyle("-fx-border-color: yellow");
         passer.setStyle("-fx-background-color: #F7E6BC");
         passer.setEffect(dropShadow);
+        passer.setOnMouseEntered(mouseEvent -> {passer.setPrefSize(125,105);passer.setStyle("-fx-background-color: #F5E9D7");});
+        passer.setOnMouseExited(mouseEvent -> {passer.setPrefSize(120,100);passer.setStyle("-fx-background-color: #F7E6BC");});
         pioche.setEffect(dropShadow);
         piocheDest.setEffect(dropShadow);
 
@@ -105,17 +121,22 @@ public class VueDuJeu extends GridPane {
 
         getColumnConstraints().addAll(premiercol, deuxiemecol, troisiemecol);
         getRowConstraints().addAll(premierl,deuxiemel,troisiemel);
-        setGridLinesVisible(true);
-        add(destinations,1,2);
+        //setGridLinesVisible(true);
         //add(passer,2,1);
         add(joueurCourant,0,1);
         add(plateau,1,1);
         add(pioches, 2,1);
+        add(cartesVisibles,1,2);
+        add(destinations,1,2);
 
     }
 
     public IJeu getJeu() {
         return jeu;
+    }
+
+    public HBox getDestinations() {
+        return destinations;
     }
 
     public void creerBindings() {
@@ -128,11 +149,17 @@ public class VueDuJeu extends GridPane {
                         if (change.wasAdded()) {
                             for (IDestination d : change.getAddedSubList()) {
                                 System.out.println(d.getNom() + " a ete ajoute");
-                                destinations.getChildren().add(new Button(d.getNom()));
+                                VueDestination vueDestination = new VueDestination(d,true);
+                                vueDestination.setAlignment(Pos.TOP_RIGHT);
+                                vueDestination.getDe().setOnMouseEntered(mouseEvent -> vueDestination.getDe().setStyle("-fx-background-color: white"));
+                                vueDestination.getDe().setOnMouseExited(mouseEvent -> vueDestination.getDe().setStyle("-fx-background-color: #F7E6BC"));
+                                vueDestination.getDe().setOnMouseClicked(destinations -> jeu.destinationsInitialesProperty().remove(trouveLabelDestination(d)));
+                                destinations.getChildren().add(vueDestination);
                             }
                         } else if (change.wasRemoved()) {
                             for (IDestination d : change.getRemoved()) {
                                 System.out.println(d.getNom() + " a ete supprime");
+                                jeu.uneDestinationAEteChoisie(d.getNom());
                                 destinations.getChildren().remove(trouveLabelDestination(d));
                             }
                         }
@@ -140,19 +167,73 @@ public class VueDuJeu extends GridPane {
                 });
             }
         };
+
+
+        ListChangeListener<ICouleurWagon> affichageCVisibles = new ListChangeListener<ICouleurWagon>() {
+            @Override
+            public void onChanged(Change<? extends ICouleurWagon> change) {
+                Platform.runLater(() -> {
+                    while(change.next()) {
+                        if (change.wasAdded()) {
+                            for (ICouleurWagon d : change.getAddedSubList()) {
+                                VueCarteWagon vueCarteWagon = new VueCarteWagon(d, true);
+                                vueCarteWagon.getImageView().setFitHeight(70);
+                                vueCarteWagon.setAlignment(Pos.TOP_RIGHT);
+                                cartesVisibles.getChildren().add(vueCarteWagon);
+                            }
+                        }
+                        else if (change.wasRemoved()) {
+                            for (ICouleurWagon d : change.getRemoved()) {
+                                cartesVisibles.getChildren().remove(trouveLabelcouleurWagon(d));
+                            }
+                        }
+
+                    }
+                });
+                }
+            };
+
+
+        jeu.cartesWagonVisiblesProperty().addListener(affichageCVisibles);
         jeu.destinationsInitialesProperty().addListener(affichageDest);
-        passer.setOnAction(passer -> jeu.passerAEteChoisi());
-        pioche.setOnAction(pioche -> jeu.uneCarteWagonAEtePiochee());
-        piocheDest.setOnAction(piocheDest -> jeu.uneDestinationAEtePiochee());
+
+
+        passer.setOnMouseClicked(passer -> {jeu.passerAEteChoisi();cartesVisibles.setOpacity(100);});
+        pioche.setOnMouseClicked(pioche -> jeu.uneCarteWagonAEtePiochee());
+        piocheDest.setOnMouseClicked(piocheDest -> {jeu.uneDestinationAEtePiochee();cartesVisibles.setOpacity(0);});
         joueurCourant.creerBindings();
+
+
     }
 
-    public Button trouveLabelDestination(IDestination dest){
+
+    /*public Button trouveLabelDestination(IDestination dest){
         Button solution = null;
         for(Node label : destinations.getChildren()){
             Button l = (Button) label;
             if(l.getText().equals(dest.getNom())){
                 solution=l;
+            }
+        }
+        return solution;
+    }*/
+
+
+    public int trouveLabelDestination(IDestination destination){
+        int solution = 0;
+        for(int i=0; i<jeu.destinationsInitialesProperty().size();i++){
+            if(Objects.equals(destination.toString(), jeu.destinationsInitialesProperty().get(i).toString())){
+                solution=i;
+            }
+        }
+        return solution;
+    }
+
+    public int trouveLabelcouleurWagon(ICouleurWagon couleurWagon){
+        int solution = 0;
+        for(int i=0; i<jeu.cartesWagonVisiblesProperty().size();i++){
+            if(Objects.equals(couleurWagon.toString(), jeu.cartesWagonVisiblesProperty().get(i).toString())){
+                solution=i;
             }
         }
         return solution;
