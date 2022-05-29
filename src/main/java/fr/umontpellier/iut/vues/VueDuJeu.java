@@ -60,7 +60,7 @@ public class VueDuJeu extends GridPane {
         joueurCourant = new VueJoueurCourant();
 
         cartesVisibles = new HBox();
-        cartesVisibles.setPrefSize(500,200);
+        cartesVisibles.setPrefSize(200,100);
         cartesVisibles.setAlignment(Pos.TOP_RIGHT);
 
         VBox pioches = new VBox();
@@ -129,6 +129,11 @@ public class VueDuJeu extends GridPane {
         add(cartesVisibles,1,2);
         add(destinations,1,2);
 
+
+    }
+
+    public HBox getCartesVisibles() {
+        return cartesVisibles;
     }
 
     public IJeu getJeu() {
@@ -146,6 +151,8 @@ public class VueDuJeu extends GridPane {
             public void onChanged(Change<? extends IDestination> change) {
                 Platform.runLater(() -> {
                     while(change.next()) {
+                        cartesVisibles.toFront();
+                        cartesVisibles.setOpacity(100);
                         if (change.wasAdded()) {
                             for (IDestination d : change.getAddedSubList()) {
                                 System.out.println(d.getNom() + " a ete ajoute");
@@ -163,6 +170,8 @@ public class VueDuJeu extends GridPane {
                                 destinations.getChildren().remove(trouveLabelDestination(d));
                             }
                         }
+                        cartesVisibles.toBack();
+                        cartesVisibles.setOpacity(0);
                     }
                 });
             }
@@ -174,6 +183,8 @@ public class VueDuJeu extends GridPane {
             public void onChanged(Change<? extends ICouleurWagon> change) {
                 Platform.runLater(() -> {
                     while(change.next()) {
+                        cartesVisibles.toFront();
+                        cartesVisibles.setOpacity(100);
                         if (change.wasAdded()) {
                             for (ICouleurWagon d : change.getAddedSubList()) {
                                 VueCarteWagon vueCarteWagon = new VueCarteWagon(d, true);
@@ -181,6 +192,7 @@ public class VueDuJeu extends GridPane {
                                 vueCarteWagon.setAlignment(Pos.TOP_RIGHT);
                                 cartesVisibles.getChildren().add(vueCarteWagon);
                             }
+
                         }
                         else if (change.wasRemoved()) {
                             for (ICouleurWagon d : change.getRemoved()) {
@@ -198,9 +210,9 @@ public class VueDuJeu extends GridPane {
         jeu.destinationsInitialesProperty().addListener(affichageDest);
 
 
-        passer.setOnMouseClicked(passer -> {jeu.passerAEteChoisi();cartesVisibles.setOpacity(100);});
-        pioche.setOnMouseClicked(pioche -> jeu.uneCarteWagonAEtePiochee());
-        piocheDest.setOnMouseClicked(piocheDest -> {jeu.uneDestinationAEtePiochee();cartesVisibles.setOpacity(0);});
+        passer.setOnMouseClicked(passer -> {jeu.passerAEteChoisi();cartesVisibles.setOpacity(100);cartesVisibles.toFront();});
+        pioche.setOnMouseClicked(pioche -> {jeu.uneCarteWagonAEtePiochee();cartesVisibles.setOpacity(100);cartesVisibles.toFront();});
+        piocheDest.setOnMouseClicked(piocheDest -> {jeu.uneDestinationAEtePiochee();cartesVisibles.setOpacity(100);cartesVisibles.toFront();});
         joueurCourant.creerBindings();
 
 

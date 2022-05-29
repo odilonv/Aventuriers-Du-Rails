@@ -168,6 +168,10 @@ public class VueJoueurCourant extends GridPane {
             @Override
             public void changed(ObservableValue<? extends IJoueur> observableValue, IJoueur iJoueur, IJoueur t1) {
                 Platform.runLater(() -> {
+                    ((VueDuJeu) getScene().getRoot()).getCartesVisibles().toFront();
+                    ((VueDuJeu) getScene().getRoot()).getCartesVisibles().setOpacity(100);
+
+
                     DropShadow dropShadow = new DropShadow();
                     dropShadow.setRadius(10.0);
                     dropShadow.setOffsetX(0);
