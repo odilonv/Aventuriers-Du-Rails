@@ -229,15 +229,15 @@ public class VueJoueurCourant extends GridPane {
                     cartesDD.getChildren().clear();
                     for (int i = 0; i < t1.cartesWagonProperty().size(); i++) {
                         if(i<9) {
-                            VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i), false);
+                            VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i));
                             cartesG.getChildren().add(vue);
                         }
                         else if(i>=9 && i<18){
-                            VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i), false);
+                            VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i));
                             cartesD.getChildren().add(vue);
                         }
                         else if(i>=18){
-                            VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i), false);
+                            VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i));
                             cartesDD.getChildren().add(vue);
                         }
                     }
@@ -248,7 +248,7 @@ public class VueJoueurCourant extends GridPane {
                             Platform.runLater(() -> {
                                 while (change.next()) {
                                     if (change.wasAdded() && !change.getAddedSubList().isEmpty()) {
-                                        VueCarteWagon vue = new VueCarteWagon(change.getAddedSubList().get(0), false);
+                                        VueCarteWagon vue = new VueCarteWagon(change.getAddedSubList().get(0));
                                         if(t1.cartesWagonProperty().size()<9) {
                                             cartesG.getChildren().add(vue);
                                         }
@@ -276,18 +276,13 @@ public class VueJoueurCourant extends GridPane {
 
 
     public String couleurEnglish(String c) {
-        switch (c){
-            case "ROUGE":
-                return "red";
-            case "BLEU":
-                return "blue";
-            case "JAUNE":
-                return "yellow";
-            case "ROSE":
-                return "pink";
-            case "VERT":
-                return "green";
-        }
-        return "";
+        return switch (c) {
+            case "ROUGE" -> "red";
+            case "BLEU" -> "blue";
+            case "JAUNE" -> "yellow";
+            case "ROSE" -> "pink";
+            case "VERT" -> "green";
+            default -> "";
+        };
     }
 }

@@ -25,7 +25,7 @@ public class VueCarteWagon extends VBox {
     private Button button;
     private ImageView imageView;
 
-    public VueCarteWagon(ICouleurWagon couleurWagon, boolean bool) {
+    public VueCarteWagon(ICouleurWagon couleurWagon) {
         this.couleurWagon = couleurWagon;
         button = new Button();
         imageView = new ImageView("images/cartesWagons/carte-wagon-"+couleurWagon.toString().toUpperCase()+".png");
@@ -36,12 +36,6 @@ public class VueCarteWagon extends VBox {
         button.setAlignment(Pos.CENTER);
         button.setOnMouseEntered(mouseEvent -> button.setStyle("-fx-background-color:"+couleurEnglish(couleurWagon.toString())));
         button.setOnMouseExited(mouseEvent -> button.setStyle("-fx-background-color:transparent"));
-        if(bool){
-            button.setOnMouseEntered(mouseEvent -> imageView.setFitHeight(90));
-            button.setOnMouseExited(mouseEvent -> imageView.setFitHeight(70));
-            button.setOnMouseClicked(cartesVisibles -> ((VueDuJeu) getScene().getRoot()).getJeu().uneCarteWagonAEteChoisie(getCouleurWagon()));
-
-        }
         getChildren().add(button);
 
     }

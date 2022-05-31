@@ -150,7 +150,7 @@ public class VueDuJeu extends GridPane {
             @Override
             public void onChanged(Change<? extends IDestination> change) {
                 Platform.runLater(() -> {
-                    while(change.next()) {
+                    if(change.next()) {
                         cartesVisibles.toFront();
                         cartesVisibles.setOpacity(100);
                         if (change.wasAdded()) {
@@ -182,13 +182,16 @@ public class VueDuJeu extends GridPane {
             @Override
             public void onChanged(Change<? extends ICouleurWagon> change) {
                 Platform.runLater(() -> {
-                    while(change.next()) {
+                    if(change.next()) {
                         cartesVisibles.toFront();
                         cartesVisibles.setOpacity(100);
                         if (change.wasAdded()) {
                             for (ICouleurWagon d : change.getAddedSubList()) {
-                                VueCarteWagon vueCarteWagon = new VueCarteWagon(d, true);
+                                VueCarteWagon vueCarteWagon = new VueCarteWagon(d);
                                 vueCarteWagon.getImageView().setFitHeight(70);
+                                vueCarteWagon.getButton().setOnMouseEntered(mouseEvent -> vueCarteWagon.getImageView().setFitHeight(90));
+                                vueCarteWagon.getButton().setOnMouseExited(mouseEvent -> vueCarteWagon.getImageView().setFitHeight(70));
+                                vueCarteWagon.getButton().setOnMouseClicked(cartesVisibles -> jeu.uneCarteWagonAEteChoisie(d));
                                 vueCarteWagon.setAlignment(Pos.TOP_RIGHT);
                                 cartesVisibles.getChildren().add(vueCarteWagon);
                             }
