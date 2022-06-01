@@ -42,12 +42,14 @@ public class VueJoueurCourant extends GridPane {
 
     private VBox destinations;
 
-    private GridPane scrollPane;
+    private GridPane inventaire;
     private GridPane infosJoueurs;
     private HBox elements;
 
     private ImageView photoJoueur;
     private ImageView fondphotoJ;
+
+    private VueAutresJoueurs joueurs;
 
     public VueJoueurCourant() {
 
@@ -76,10 +78,10 @@ public class VueJoueurCourant extends GridPane {
         cartesD.setPrefSize(440, 440);
         cartesD.setMaxSize(440, 440);
 
-        scrollPane = new GridPane();
-        scrollPane.setStyle("-fx-background-color: transparent");
-        scrollPane.setPrefSize(440, 500);
-        scrollPane.setMaxSize(440, 500);
+        inventaire = new GridPane();
+        inventaire.setStyle("-fx-background-color: transparent");
+        inventaire.setPrefSize(440, 500);
+        inventaire.setMaxSize(440, 500);
 
         ColumnConstraints col1 = new ColumnConstraints();
         col1.setPercentWidth(33);
@@ -87,12 +89,12 @@ public class VueJoueurCourant extends GridPane {
         col2.setPercentWidth(33);
         ColumnConstraints col3 = new ColumnConstraints();
         col3.setPercentWidth(33);
-        scrollPane.getColumnConstraints().addAll(col1,col2,col3);
+        inventaire.getColumnConstraints().addAll(col1,col2,col3);
         //scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        scrollPane.add(cartesG, 0,0);
-        scrollPane.add(cartesD,1,0);
-        scrollPane.add(cartesDD,2,0);
+        inventaire.add(cartesG, 0,0);
+        inventaire.add(cartesD,1,0);
+        inventaire.add(cartesDD,2,0);
 
         destinations = new VBox();
         destinations.setAlignment(Pos.BOTTOM_CENTER);
@@ -133,6 +135,8 @@ public class VueJoueurCourant extends GridPane {
         photoJoueur.setPreserveRatio(true);
         photoJoueur.setFitHeight(140);
 
+        joueurs = new VueAutresJoueurs();
+
 
         ColumnConstraints premiercol = new ColumnConstraints();
         premiercol.setPercentWidth(5);
@@ -154,10 +158,10 @@ public class VueJoueurCourant extends GridPane {
         getColumnConstraints().addAll(premiercol, deuxiemecol, troisiemecol);
         getRowConstraints().addAll(ligne1, ligne2, ligne3);
 
-
+        add(joueurs,1,5);
         add(nomJoueur, 1, 2);
         add(fondnomJ, 1,2);
-        add(scrollPane, 1, 3);
+        add(inventaire, 1, 3);
         add(fondphotoJ, 1, 1);
         add(photoJoueur, 1, 1);
         add(infosJoueurs, 1,1);
@@ -173,14 +177,13 @@ public class VueJoueurCourant extends GridPane {
                     ((VueDuJeu) getScene().getRoot()).getCartesVisibles().toFront();
                     ((VueDuJeu) getScene().getRoot()).getCartesVisibles().setOpacity(100);
 
-
                     DropShadow dropShadow = new DropShadow();
                     dropShadow.setRadius(10.0);
                     dropShadow.setOffsetX(0);
                     dropShadow.setOffsetY(1.0);
                     dropShadow.setColor(Color.web(couleurEnglish(t1.getCouleur().name())));
 
-                    scrollPane.setStyle("-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, "+couleurEnglish(t1.getCouleur().name())+", rgba(244,244,244,0))");
+                    inventaire.setStyle("-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, "+couleurEnglish(t1.getCouleur().name())+", rgba(244,244,244,0))");
                     //scrollPane.setStyle("-fx-background-opacity: 0.5");
                     fondnomJ.setText(t1.getNom());
                     nomJoueur.setText(t1.getNom());
@@ -190,30 +193,36 @@ public class VueJoueurCourant extends GridPane {
 
                     String n = ""+t1.getNbWagons();
                     Button nb= new Button(n);
-                    nb.setFont(Font.font("Arial", 18));
+                    nb.setFont(Font.font("Georgia", 25));
                     nb.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(t1.getCouleur().name())+";");
-                    Image wagon = new Image("images/wagons/image-wagon-" + t1.getCouleur().name() + ".png");
-                    ImageView img = new ImageView();
-                    img.setImage(wagon);
-                    img.setFitHeight(45);
+                    ImageView img = new ImageView("images/wagons/image-wagon-" + t1.getCouleur().name() + ".png");
+                    img.setFitHeight(60);
                     img.setPreserveRatio(true);
+                    Button bimg = new Button();
+                    bimg.setGraphic(img);
+                    bimg.setStyle("-fx-background-color: transparent");
+                    bimg.setOnMouseEntered(affichage -> bimg.setGraphic(nb));
+                    bimg.setOnMouseExited(affichage -> bimg.setGraphic(img));
 
-                    String ng = ""+t1.getNbGares();
-                    Button nbg= new Button(ng);
-                    nbg.setFont(Font.font("Arial", 18));
-                    nbg.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(t1.getCouleur().name())+";");
-                    Image wg = new Image("images/gares/gare-" + t1.getCouleur().name() + ".png");
-                    ImageView imgg = new ImageView();
-                    imgg.setImage(wg);
-                    imgg.setFitHeight(35);
-                    imgg.setPreserveRatio(true);
-
+                    //String ng = ""+t1.getNbGares();
+                    //Button nbg= new Button(ng);
+                    //nbg.setFont(Font.font("Arial", 18));
+                    //nbg.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(t1.getCouleur().name())+";");
+                    //nbg.setEffect(dropShadow);
                     nb.setEffect(dropShadow);
-                    img.setEffect(dropShadow);
-                    nbg.setEffect(dropShadow);
-                    imgg.setEffect(dropShadow);
+                    bimg.setEffect(dropShadow);
 
-                    elements.getChildren().addAll(nb,img,nbg,imgg);
+                    elements.getChildren().addAll(bimg);
+
+                    for(int i=0;i<t1.getNbGares();i++){
+                        Image wg = new Image("images/gares/gare-" + t1.getCouleur().name() + ".png");
+                        ImageView imgg = new ImageView();
+                        imgg.setImage(wg);
+                        imgg.setFitHeight(35);
+                        imgg.setPreserveRatio(true);
+                        imgg.setEffect(dropShadow);
+                        elements.getChildren().add(imgg);
+                    }
 
                     destinations.getChildren().clear();
                     for(int i=0;i<t1.getDestinations().size();i++){
@@ -226,21 +235,20 @@ public class VueJoueurCourant extends GridPane {
                     Image i1 = new Image("images/personnages/avatar-" + t1.getCouleur().name() + ".png");
                     fondphotoJ.setImage(i1);
                     photoJoueur.setImage(i1);
+
                     cartesG.getChildren().clear();
                     cartesD.getChildren().clear();
                     cartesDD.getChildren().clear();
 
                     for (int i = 0; i < t1.cartesWagonProperty().size(); i++) {
+                        VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i));
                         if(i<9) {
-                            VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i));
                             cartesG.getChildren().add(vue);
                         }
                         else if(i<18){
-                            VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i));
                             cartesD.getChildren().add(vue);
                         }
                         else {
-                            VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i));
                             cartesDD.getChildren().add(vue);
                         }
                     }
@@ -249,7 +257,7 @@ public class VueJoueurCourant extends GridPane {
                         @Override
                         public void onChanged(Change<? extends ICouleurWagon> change) {
                             Platform.runLater(() -> {
-                                if (change.next()) {
+                                while (change.next()) {
                                     if (change.wasAdded() && !change.getAddedSubList().isEmpty()) {
                                         VueCarteWagon vue = new VueCarteWagon(change.getAddedSubList().get(0));
                                         if(t1.cartesWagonProperty().size()<9) {
@@ -264,7 +272,6 @@ public class VueJoueurCourant extends GridPane {
                                     }
                                 }
                             });
-
                         }
                     };
                     ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().getValue().cartesWagonProperty().addListener(listChangeListener);
@@ -274,16 +281,14 @@ public class VueJoueurCourant extends GridPane {
                         public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                             Platform.runLater(() -> {
                             ((VueDuJeu) getScene().getRoot()).getInstructions().setText(t1.toUpperCase() + " :");
-
                             });
                         }
                     };
                     ((VueDuJeu) getScene().getRoot()).getJeu().instructionProperty().addListener(changeInstruction);
-
-
                 });
             }
         };
+        joueurs.creerBindings();
         ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().addListener(changeListener);
     }
 
