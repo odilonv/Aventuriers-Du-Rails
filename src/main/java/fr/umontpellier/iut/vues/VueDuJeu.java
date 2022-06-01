@@ -6,6 +6,7 @@ import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -38,6 +39,8 @@ public class VueDuJeu extends GridPane {
     private VueJoueurCourant joueurCourant;
     private Button pioche;
     private Button piocheDest;
+
+    private Label instructions;
 
 
     public VueDuJeu(IJeu jeu) {
@@ -99,6 +102,17 @@ public class VueDuJeu extends GridPane {
         pioche.setEffect(dropShadow);
         piocheDest.setEffect(dropShadow);
 
+        HBox hBox= new HBox();
+        instructions = new Label(jeu.instructionProperty().getValue().toUpperCase() + " :");
+        instructions.setAlignment(Pos.BOTTOM_LEFT);
+        /*instructions.setOnMouseEntered(mouseEvent -> instructions.setPrefSize(200,500));
+        instructions.setOnMouseExited(mouseEvent -> instructions.setPrefSize('àà',100));*/
+        instructions.setStyle("-fx-background-color: black ; -fx-text-fill: white");
+        instructions.setFont(Font.font("Georgia", 20));
+        hBox.setAlignment(Pos.BOTTOM_RIGHT);
+        hBox.setPadding(new Insets(20));
+        hBox.getChildren().add(instructions);
+
 
         pioches.setSpacing(50);
         pioches.setAlignment(Pos.CENTER);
@@ -127,6 +141,7 @@ public class VueDuJeu extends GridPane {
         add(plateau,1,1);
         add(pioches, 2,1);
         add(cartesVisibles,1,2);
+        add(hBox, 1,1);
         add(destinations,1,2);
 
 
@@ -142,6 +157,10 @@ public class VueDuJeu extends GridPane {
 
     public HBox getDestinations() {
         return destinations;
+    }
+
+    public Label getInstructions() {
+        return instructions;
     }
 
     public void creerBindings() {
@@ -195,7 +214,6 @@ public class VueDuJeu extends GridPane {
                                 vueCarteWagon.setAlignment(Pos.TOP_RIGHT);
                                 cartesVisibles.getChildren().add(vueCarteWagon);
                             }
-
                         }
                         else if (change.wasRemoved()) {
                             for (ICouleurWagon d : change.getRemoved()) {
@@ -213,10 +231,14 @@ public class VueDuJeu extends GridPane {
         jeu.destinationsInitialesProperty().addListener(affichageDest);
 
 
+
+
         passer.setOnMouseClicked(passer -> {jeu.passerAEteChoisi();cartesVisibles.setOpacity(100);cartesVisibles.toFront();});
         pioche.setOnMouseClicked(pioche -> {jeu.uneCarteWagonAEtePiochee();cartesVisibles.setOpacity(100);cartesVisibles.toFront();});
-        piocheDest.setOnMouseClicked(piocheDest -> {jeu.uneDestinationAEtePiochee();cartesVisibles.setOpacity(100);cartesVisibles.toFront();});
+        piocheDest.setOnMouseClicked(piocheDest -> {jeu.uneDestinationAEtePiochee();cartesVisibles.setOpacity(0);cartesVisibles.toBack();});
+
         joueurCourant.creerBindings();
+        plateau.creerBindings();
 
 
     }

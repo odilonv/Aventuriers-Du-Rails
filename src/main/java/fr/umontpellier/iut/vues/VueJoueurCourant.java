@@ -4,6 +4,7 @@ import fr.umontpellier.iut.ICouleurWagon;
 import fr.umontpellier.iut.IDestination;
 import fr.umontpellier.iut.IJoueur;
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -168,6 +169,7 @@ public class VueJoueurCourant extends GridPane {
             @Override
             public void changed(ObservableValue<? extends IJoueur> observableValue, IJoueur iJoueur, IJoueur t1) {
                 Platform.runLater(() -> {
+
                     ((VueDuJeu) getScene().getRoot()).getCartesVisibles().toFront();
                     ((VueDuJeu) getScene().getRoot()).getCartesVisibles().setOpacity(100);
 
@@ -227,16 +229,17 @@ public class VueJoueurCourant extends GridPane {
                     cartesG.getChildren().clear();
                     cartesD.getChildren().clear();
                     cartesDD.getChildren().clear();
+
                     for (int i = 0; i < t1.cartesWagonProperty().size(); i++) {
                         if(i<9) {
                             VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i));
                             cartesG.getChildren().add(vue);
                         }
-                        else if(i>=9 && i<18){
+                        else if(i<18){
                             VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i));
                             cartesD.getChildren().add(vue);
                         }
-                        else if(i>=18){
+                        else {
                             VueCarteWagon vue = new VueCarteWagon(t1.cartesWagonProperty().get(i));
                             cartesDD.getChildren().add(vue);
                         }
@@ -246,7 +249,7 @@ public class VueJoueurCourant extends GridPane {
                         @Override
                         public void onChanged(Change<? extends ICouleurWagon> change) {
                             Platform.runLater(() -> {
-                                while (change.next()) {
+                                if (change.next()) {
                                     if (change.wasAdded() && !change.getAddedSubList().isEmpty()) {
                                         VueCarteWagon vue = new VueCarteWagon(change.getAddedSubList().get(0));
                                         if(t1.cartesWagonProperty().size()<9) {
@@ -265,6 +268,17 @@ public class VueJoueurCourant extends GridPane {
                         }
                     };
                     ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().getValue().cartesWagonProperty().addListener(listChangeListener);
+
+                    ChangeListener<String> changeInstruction = new ChangeListener<String>() {
+                        @Override
+                        public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                            Platform.runLater(() -> {
+                            ((VueDuJeu) getScene().getRoot()).getInstructions().setText(t1.toUpperCase() + " :");
+
+                            });
+                        }
+                    };
+                    ((VueDuJeu) getScene().getRoot()).getJeu().instructionProperty().addListener(changeInstruction);
 
 
                 });
