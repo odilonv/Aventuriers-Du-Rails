@@ -53,27 +53,18 @@ public class VueCarteWagon extends VBox {
     }
 
     public String couleurEnglish(String c) {
-        switch (c){
-            case "Rouge":
-                return "red";
-            case "Bleu":
-                return "blue";
-            case "Jaune":
-                return "yellow";
-            case "Rose":
-                return "pink";
-            case "Vert":
-                return "green";
-            case "Blanc":
-                return "white";
-            case "Locomotive":
-                return "grey";
-            case "Noir":
-                return "black";
-            case "Orange":
-                return "orange";
-        }
-        return "";
+        return switch (c) {
+            case "Rouge" -> "red";
+            case "Bleu" -> "blue";
+            case "Jaune" -> "yellow";
+            case "Rose" -> "pink";
+            case "Vert" -> "green";
+            case "Blanc" -> "white";
+            case "Locomotive" -> "grey";
+            case "Noir" -> "black";
+            case "Orange" -> "orange";
+            default -> "";
+        };
     }
 
 

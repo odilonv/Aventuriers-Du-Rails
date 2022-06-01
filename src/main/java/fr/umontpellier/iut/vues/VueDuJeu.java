@@ -218,7 +218,12 @@ public class VueDuJeu extends GridPane {
                         }
                         else if (change.wasRemoved()) {
                             for (ICouleurWagon d : change.getRemoved()) {
-                                cartesVisibles.getChildren().remove(trouveLabelcouleurWagon(d+""));
+                                if(change.getRemovedSize()>1){
+                                    cartesVisibles.getChildren().clear();
+                                }
+                                else {
+                                    cartesVisibles.getChildren().remove(trouveLabelcouleurWagon(d + ""));
+                                }
                             }
                         }
 
