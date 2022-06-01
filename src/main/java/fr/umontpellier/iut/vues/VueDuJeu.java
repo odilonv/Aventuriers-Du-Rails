@@ -39,6 +39,7 @@ public class VueDuJeu extends GridPane {
     private VueJoueurCourant joueurCourant;
     private Button pioche;
     private Button piocheDest;
+    private int cpt=0;
 
     private Label instructions;
 
@@ -174,7 +175,7 @@ public class VueDuJeu extends GridPane {
                         cartesVisibles.setOpacity(100);
                         if (change.wasAdded()) {
                             for (IDestination d : change.getAddedSubList()) {
-                                System.out.println(d.getNom() + " a ete ajoute");
+                                //System.out.println(d.getNom() + " a ete ajoute");
                                 VueDestination vueDestination = new VueDestination(d,true);
                                 vueDestination.setAlignment(Pos.TOP_RIGHT);
                                 vueDestination.getDe().setOnMouseEntered(mouseEvent -> vueDestination.getDe().setStyle("-fx-background-color: white"));
@@ -184,7 +185,7 @@ public class VueDuJeu extends GridPane {
                             }
                         } else if (change.wasRemoved()) {
                             for (IDestination d : change.getRemoved()) {
-                                System.out.println(d.getNom() + " a ete supprime");
+                                //System.out.println(d.getNom() + " a ete supprime");
                                 jeu.uneDestinationAEteChoisie(d.getNom());
                                 destinations.getChildren().remove(trouveLabelDestination(d));
                             }
@@ -195,7 +196,6 @@ public class VueDuJeu extends GridPane {
                 });
             }
         };
-
 
         ListChangeListener<ICouleurWagon> affichageCVisibles = new ListChangeListener<ICouleurWagon>() {
             @Override
@@ -211,13 +211,14 @@ public class VueDuJeu extends GridPane {
                                 vueCarteWagon.getButton().setOnMouseEntered(mouseEvent -> vueCarteWagon.getImageView().setFitHeight(90));
                                 vueCarteWagon.getButton().setOnMouseExited(mouseEvent -> vueCarteWagon.getImageView().setFitHeight(70));
                                 vueCarteWagon.getButton().setOnMouseClicked(cartesVisibles -> jeu.uneCarteWagonAEteChoisie(d));
+                                vueCarteWagon.setId(d+"");
                                 vueCarteWagon.setAlignment(Pos.TOP_RIGHT);
                                 cartesVisibles.getChildren().add(vueCarteWagon);
                             }
                         }
                         else if (change.wasRemoved()) {
                             for (ICouleurWagon d : change.getRemoved()) {
-                                cartesVisibles.getChildren().remove(trouveLabelcouleurWagon(d));
+                                cartesVisibles.getChildren().remove(trouveLabelcouleurWagon(d+""));
                             }
                         }
 
@@ -266,14 +267,14 @@ public class VueDuJeu extends GridPane {
         return solution;
     }
 
-    public int trouveLabelcouleurWagon(ICouleurWagon couleurWagon){
-        int solution = 0;
-        for(int i=0; i<jeu.cartesWagonVisiblesProperty().size();i++){
-            if(Objects.equals(couleurWagon.toString(), jeu.cartesWagonVisiblesProperty().get(i).toString())){
-                solution=i;
+    public VueCarteWagon trouveLabelcouleurWagon(String couleurWagon){
+        for(int i=0; i<cartesVisibles.getChildren().size();i++){
+            VueCarteWagon sl= (VueCarteWagon) cartesVisibles.getChildren().get(i);
+            if(sl.getId().equals(couleurWagon)){
+                return sl;
             }
         }
-        return solution;
+        return null;
     }
 
 }
