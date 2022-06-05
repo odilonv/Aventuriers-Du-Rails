@@ -58,7 +58,7 @@ public class VueChoixJoueurs extends Stage {
         passer.setStyle("-fx-background-color: #F7E6BC");
         passer.setEffect(dropShadow);
         passer.setPrefSize(400,80);
-        passer.setOnMouseEntered(mouseEvent -> {passer.setPrefSize(440,100);passer.setStyle("-fx-background-color: #F5E9D7");});
+        passer.setOnMouseEntered(mouseEvent -> {passer.setPrefSize(402,82);passer.setStyle("-fx-background-color: #F5E9D7");});
         passer.setOnMouseExited(mouseEvent -> {passer.setPrefSize(400,80);passer.setStyle("-fx-background-color: #F7E6BC");});
 
         start.setAlignment(Pos.CENTER);
@@ -70,18 +70,23 @@ public class VueChoixJoueurs extends Stage {
         dp.setOffsetX(0);
         dp.setOffsetY(1.0);
         dp.setColor(Color.RED);
+
         start.setEffect(dropShadow);
         start.setPrefSize(300,80);
         start.setOnMouseEntered(mouseEvent -> {start.setPrefSize(360,120);start.setStyle("-fx-background-color: #2EE800");});
         start.setOnMouseExited(mouseEvent -> {start.setPrefSize(300,80);start.setStyle("-fx-background-color: #2EE800");});
 
-        retirer.setAlignment(Pos.CENTER_RIGHT);
+        ImageView img = new ImageView("images/croix.png");
+        retirer.setAlignment(Pos.CENTER);
         retirer.setStyle("-fx-border-color: red");
         retirer.setStyle("-fx-background-color: red");
         retirer.setEffect(dp);
+        retirer.setGraphic(img);
+        img.setFitHeight(70);
+        img.setPreserveRatio(true);
         retirer.setPrefSize(80,70);
-        retirer.setOnMouseEntered(mouseEvent -> {retirer.setPrefSize(90,80);retirer.setStyle("-fx-background-color: red");});
-        retirer.setOnMouseExited(mouseEvent -> {retirer.setPrefSize(80,70);retirer.setStyle("-fx-background-color: red");});
+        retirer.setOnMouseEntered(mouseEvent -> {img.setFitHeight(72);retirer.setStyle("-fx-background-color: #FA534B");});
+        retirer.setOnMouseExited(mouseEvent -> {img.setFitHeight(70);retirer.setStyle("-fx-background-color: red");});
 
         GridPane gridPane = new GridPane();
         Image bg = new Image("images/backgrounds/LUI.jpg");
@@ -101,9 +106,9 @@ public class VueChoixJoueurs extends Stage {
         RowConstraints premierl=new RowConstraints();
         RowConstraints deuxiemel=new RowConstraints();
         RowConstraints troisiemel=new RowConstraints();
-        premierl.setPercentHeight(30);
-        deuxiemel.setPercentHeight(75);
-        troisiemel.setPercentHeight(20);
+        premierl.setPercentHeight(20);
+        deuxiemel.setPercentHeight(80);
+        troisiemel.setPercentHeight(25);
 
 
         gridPane.getColumnConstraints().addAll(premiercol, deuxiemecol, troisiemecol);
@@ -138,7 +143,7 @@ public class VueChoixJoueurs extends Stage {
         j5.setFont(Font.font("Georgia", 30));
 
         Button espace = new Button("espace");
-        espace.setPrefSize(100,30);
+        espace.setPrefSize(60,10);
         espace.setOpacity(0);
 
         hbox.setAlignment(Pos.CENTER);
@@ -217,7 +222,7 @@ public class VueChoixJoueurs extends Stage {
                 }
 
 
-                });
+        });
         ArrayList<TextField> listefield = new ArrayList<>();
         listefield.add(j1);
         listefield.add(j2);
@@ -226,6 +231,7 @@ public class VueChoixJoueurs extends Stage {
         }
         if(vbox.getChildren().contains(j4)){
             listefield.add(j4);
+            System.out.println("pas du tt");
         }
         if(vbox.getChildren().contains(j5)){
             listefield.add(j5);

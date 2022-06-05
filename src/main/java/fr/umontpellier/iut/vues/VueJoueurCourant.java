@@ -288,7 +288,7 @@ public class VueJoueurCourant extends GridPane {
                 });
             }
         };
-        joueurs.creerBindings();
+        //joueurs.creerBindings();
         ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().addListener(changeListener);
     }
 

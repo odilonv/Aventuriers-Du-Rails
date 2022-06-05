@@ -18,7 +18,7 @@ import java.util.List;
  * On y définit les bindings sur le joueur courant, ainsi que le listener à exécuter lorsque ce joueur change
  */
 public class VueAutresJoueurs extends HBox {
-
+    /*
     List<Joueur> listJoueurs;
 
     public VueAutresJoueurs(){
@@ -40,8 +40,10 @@ public class VueAutresJoueurs extends HBox {
                 });
             }
         };
-        ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().addListener(changeInstruction);
+        //((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().addListener(changeInstruction);
     }
+
+     */
 
 
 
