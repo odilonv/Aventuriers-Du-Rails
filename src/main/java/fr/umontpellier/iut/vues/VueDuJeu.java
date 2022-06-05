@@ -50,9 +50,9 @@ public class VueDuJeu extends GridPane {
 
         Image bg = new Image("images/backgrounds/LUI.jpg");
         BackgroundImage bImg = new BackgroundImage(bg,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
+                BackgroundRepeat.REPEAT,
+                BackgroundRepeat.REPEAT,
+                BackgroundPosition.CENTER,
                 BackgroundSize.DEFAULT);
         Background bGround = new Background(bImg);
         setBackground(bGround);

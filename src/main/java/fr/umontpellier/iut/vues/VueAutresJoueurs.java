@@ -5,9 +5,18 @@ import fr.umontpellier.iut.rails.Joueur;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +32,17 @@ public class VueAutresJoueurs extends HBox {
 
     List<Joueur> listJoueurs;
     List<Joueur> listbis;
+    private HBox elements;
+
+
 
     public VueAutresJoueurs(){
         listJoueurs = new ArrayList<>();
         listbis = new ArrayList<>();
+        setAlignment(Pos.CENTER_RIGHT);
+        setSpacing(5);
+
+
     }
 
 
@@ -40,16 +56,75 @@ public class VueAutresJoueurs extends HBox {
                             listJoueurs.addAll(((VueDuJeu) getScene().getRoot()).getJeu().getJoueurs());
                             listbis.addAll(listJoueurs);
                             for (int i = 0; i < listbis.size(); i++) {
+                                VBox perso = new VBox();
                                 Button button = new Button(listbis.get(i).getNom());
+                                button.setPrefSize(100,20);
+                                elements = new HBox();
+                                ImageView photoJoueur = new ImageView();
+                                photoJoueur.setPreserveRatio(true);
+                                photoJoueur.setFitHeight(80);
+
+                                DropShadow dropShadow = new DropShadow();
+                                dropShadow.setRadius(10.0);
+                                dropShadow.setOffsetX(0);
+                                dropShadow.setOffsetY(1.0);
+                                dropShadow.setColor(Color.web(couleurEnglish(listbis.get(i).getCouleur().name())));
+
+
+
+                                String n = ""+listbis.get(i).getNbWagons();
+                                Button nb= new Button(n);
+                                nb.setFont(Font.font("Georgia", 10));
+                                nb.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(listbis.get(i).getCouleur().name())+";");
+                                ImageView img = new ImageView("images/wagons/image-wagon-" + listbis.get(i).getCouleur().name() + ".png");
+                                img.setFitHeight(30);
+                                img.setPreserveRatio(true);
+                                Button bimg = new Button();
+                                bimg.setGraphic(img);
+                                bimg.setStyle("-fx-background-color: transparent");
+                                bimg.setOnMouseEntered(affichage -> bimg.setGraphic(nb));
+                                bimg.setOnMouseExited(affichage -> bimg.setGraphic(img));
+
+                                nb.setEffect(dropShadow);
+                                bimg.setEffect(dropShadow);
+
+
+
+
+                                Image i1 = new Image("images/personnages/avatar-" + listbis.get(i).getCouleur().name() + ".png");
+
+                                photoJoueur.setImage(i1);
+
+                                elements.getChildren().addAll(photoJoueur,bimg);
+
+                                perso.getChildren().addAll(elements,button);
+                                perso.setSpacing(10);
+
+
+
+
+
+
+
+
+
                                 //if (!Objects.equals(t1.getNom(), listbis.get(i).getNom())) {
-                                    getChildren().add(button);
+                                    getChildren().add(perso);
                                 //}
                             }
                         }
+
+
+
+
+
+
                         //getChildren().get(0).setOpacity(0);
                         getChildren().add(getChildren().remove(0));
                         getChildren().get(getChildren().size()-1).setOpacity(0);
                         getChildren().get(getChildren().size()-2).setOpacity(100);
+                    //getChildren().add(getChildren().remove(0));
+                    //getChildren().get(getChildren().size()-1).setOpacity(100);
 
 
                     // JOUEUR COURANT t1
@@ -62,6 +137,15 @@ public class VueAutresJoueurs extends HBox {
 
 
 
-
+    public String couleurEnglish(String c) {
+        return switch (c) {
+            case "ROUGE" -> "red";
+            case "BLEU" -> "blue";
+            case "JAUNE" -> "yellow";
+            case "ROSE" -> "pink";
+            case "VERT" -> "green";
+            default -> "";
+        };
+    }
 
 }
