@@ -37,6 +37,7 @@ public class VueDuJeu extends GridPane {
     private HBox cartesVisibles;
     private Button passer;
     private VueJoueurCourant joueurCourant;
+    private VueAutresJoueurs autresJoueurs;
     private Button pioche;
     private Button piocheDest;
     private int cpt=0;
@@ -62,6 +63,7 @@ public class VueDuJeu extends GridPane {
         destinations.setAlignment(Pos.CENTER);
         passer = new Button("PASSER\nSON\nTOUR");
         joueurCourant = new VueJoueurCourant();
+        autresJoueurs = new VueAutresJoueurs();
 
         cartesVisibles = new HBox();
         cartesVisibles.setPrefSize(200,100);
@@ -139,6 +141,7 @@ public class VueDuJeu extends GridPane {
         //setGridLinesVisible(true);
         //add(passer,2,1);
         add(joueurCourant,0,1);
+        add(autresJoueurs, 0,2);
         add(plateau,1,1);
         add(pioches, 2,1);
         add(cartesVisibles,1,2);
@@ -244,6 +247,7 @@ public class VueDuJeu extends GridPane {
         piocheDest.setOnMouseClicked(piocheDest -> {jeu.uneDestinationAEtePiochee();cartesVisibles.setOpacity(0);cartesVisibles.toBack();});
 
         joueurCourant.creerBindings();
+        autresJoueurs.creerBindings();
         plateau.creerBindings();
 
 
