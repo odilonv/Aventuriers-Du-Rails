@@ -158,7 +158,7 @@ public class VueJoueurCourant extends GridPane {
         getColumnConstraints().addAll(premiercol, deuxiemecol, troisiemecol);
         getRowConstraints().addAll(ligne1, ligne2, ligne3);
 
-        add(joueurs,1,5);
+        //add(joueurs,1,5);
         add(nomJoueur, 1, 2);
         add(fondnomJ, 1,2);
         add(inventaire, 1, 3);
