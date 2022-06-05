@@ -98,7 +98,7 @@ public class VueAutresJoueurs extends HBox {
                                 nss.setEffect(dropShadow);
 
                                 String ng = ""+listbis.get(i).getNbGares();
-                                Button ngg= new Button(n);
+                                Button ngg= new Button(ng);
                                 ngg.setFont(Font.font("Georgia", 10));
                                 ngg.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(listbis.get(i).getCouleur().name())+";");
                                 ImageView imgg = new ImageView("images/gares/gare-" + listbis.get(i).getCouleur().name() + ".png");
