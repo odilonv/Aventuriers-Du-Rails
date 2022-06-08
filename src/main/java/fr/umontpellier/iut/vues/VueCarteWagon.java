@@ -36,6 +36,7 @@ public class VueCarteWagon extends VBox {
         button.setAlignment(Pos.CENTER);
         button.setOnMouseEntered(mouseEvent -> button.setStyle("-fx-background-color:"+couleurEnglish(couleurWagon.toString())));
         button.setOnMouseExited(mouseEvent -> button.setStyle("-fx-background-color:transparent"));
+        button.setOnMouseClicked(cartesVisibles -> ((VueDuJeu) getScene().getRoot()).getJeu().uneCarteWagonAEteChoisie(couleurWagon));
         getChildren().add(button);
 
     }

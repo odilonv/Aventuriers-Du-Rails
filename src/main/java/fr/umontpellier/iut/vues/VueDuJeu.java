@@ -49,6 +49,7 @@ public class VueDuJeu extends GridPane {
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
+        plateau = new VuePlateau();
 
         Image bg = new Image("images/backgrounds/LUI.jpg");
         BackgroundImage bImg = new BackgroundImage(bg,
@@ -59,7 +60,7 @@ public class VueDuJeu extends GridPane {
         Background bGround = new Background(bImg);
         setBackground(bGround);
 
-        plateau = new VuePlateau();
+
         destinations= new HBox();
         destinations.setSpacing(10);
         destinations.setAlignment(Pos.CENTER);
@@ -108,11 +109,12 @@ public class VueDuJeu extends GridPane {
         piocheDest.setEffect(dropShadow);
 
         HBox hBox= new HBox();
-        instructions = new Label(jeu.instructionProperty().getValue().toUpperCase() + " :");
-        instructions.setAlignment(Pos.BOTTOM_LEFT);
+        instructions = new Label(jeu.instructionProperty().getValue().toUpperCase());
+        instructions.setAlignment(Pos.TOP_RIGHT);
         /*instructions.setOnMouseEntered(mouseEvent -> instructions.setPrefSize(200,500));
         instructions.setOnMouseExited(mouseEvent -> instructions.setPrefSize('àà',100));*/
         instructions.setStyle("-fx-background-color: black ; -fx-text-fill: white");
+
         instructions.setFont(Font.font("Georgia", 20));
         hBox.setAlignment(Pos.BOTTOM_RIGHT);
         hBox.setPadding(new Insets(20));
@@ -147,7 +149,7 @@ public class VueDuJeu extends GridPane {
         add(plateau,1,1);
         add(pioches, 2,1);
         add(cartesVisibles,1,2);
-        add(hBox, 1,1);
+        add(hBox, 1,2);
         add(destinations,1,2);
 
 
@@ -215,7 +217,6 @@ public class VueDuJeu extends GridPane {
                                 vueCarteWagon.getImageView().setFitHeight(70);
                                 vueCarteWagon.getButton().setOnMouseEntered(mouseEvent -> vueCarteWagon.getImageView().setFitHeight(90));
                                 vueCarteWagon.getButton().setOnMouseExited(mouseEvent -> vueCarteWagon.getImageView().setFitHeight(70));
-                                vueCarteWagon.getButton().setOnMouseClicked(cartesVisibles -> jeu.uneCarteWagonAEteChoisie(d));
                                 vueCarteWagon.setId(d+"");
                                 vueCarteWagon.setAlignment(Pos.TOP_RIGHT);
                                 cartesVisibles.getChildren().add(vueCarteWagon);
