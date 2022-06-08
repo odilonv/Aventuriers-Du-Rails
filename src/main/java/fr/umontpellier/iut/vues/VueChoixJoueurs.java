@@ -142,6 +142,13 @@ public class VueChoixJoueurs extends Stage {
         j4.setFont(Font.font("Georgia", 30));
         j5.setFont(Font.font("Georgia", 30));
 
+        j1.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ;-fx-background-color: rgba(255, 255, 255, .4);-fx-opacity: 0.2");
+        j2.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ;");
+        j3.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ;");
+        j4.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ;");
+        j5.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ;");
+
+
         Button espace = new Button("espace");
         espace.setPrefSize(60,10);
         espace.setOpacity(0);
@@ -171,7 +178,8 @@ public class VueChoixJoueurs extends Stage {
         passer.setOnMouseClicked(event -> {
             if(!vbox.getChildren().contains(j2)) {
                 retirer.setOpacity(100);
-                vbox.getChildren().removeAll(espace,hbox);
+                vbox.getChildren().remove(espace);
+                vbox.getChildren().remove(hbox);
                 if(!hbox.getChildren().contains(retirer)) {
                     hbox.getChildren().add(retirer);
                 }
@@ -182,8 +190,11 @@ public class VueChoixJoueurs extends Stage {
 
             }
             else if(!vbox.getChildren().contains(j3)) {
-                vbox.getChildren().removeAll(espace,hbox);
+                vbox.getChildren().remove(hbox);
+                vbox.getChildren().remove(espace);
+                System.out.println("avant" + vbox.getChildren());
                 vbox.getChildren().addAll(j3,espace,hbox);
+                System.out.println("apres" + vbox.getChildren());
             }
             else if(!vbox.getChildren().contains(j4)){
                 vbox.getChildren().removeAll(espace,hbox);
@@ -197,6 +208,7 @@ public class VueChoixJoueurs extends Stage {
                 hbox.getChildren().remove(passer);
             }
         });
+        System.out.println(vbox.getChildren());
             retirer.setOnMouseClicked(eve -> {
                 if(vbox.getChildren().contains(j5)){
                     hbox.getChildren().remove(retirer);
@@ -206,15 +218,19 @@ public class VueChoixJoueurs extends Stage {
                     hbox.getChildren().add(retirer);
                     passer.setOpacity(100);
                     vbox.getChildren().remove(j5);
+                    j5.setText("");
                 }
                 else if(vbox.getChildren().contains(j4)){
                     vbox.getChildren().remove(j4);
+                    j4.setText("");
                 }
                 else if(vbox.getChildren().contains(j3)){
                     vbox.getChildren().remove(j3);
+                    j3.setText("");
                 }
                 else if(vbox.getChildren().contains(j2)){
                     vbox.getChildren().remove(j2);
+                    j2.setText("");
                     hbox.getChildren().remove(retirer);
                     retirer.setOpacity(0);
                     hstart.getChildren().remove(start);
@@ -223,22 +239,27 @@ public class VueChoixJoueurs extends Stage {
 
 
         });
-        ArrayList<TextField> listefield = new ArrayList<>();
-        listefield.add(j1);
-        listefield.add(j2);
-        if(vbox.getChildren().contains(j3)){
-            listefield.add(j3);
-        }
-        if(vbox.getChildren().contains(j4)){
-            listefield.add(j4);
-            System.out.println("pas du tt");
-        }
-        if(vbox.getChildren().contains(j5)){
-            listefield.add(j5);
-        }
+
         start.setOnMouseClicked(event -> {
+            ArrayList<TextField> listefield = new ArrayList<>();
+            listefield.add(j1);
+            listefield.add(j2);
+            System.out.println(listefield);
+            System.out.println(vbox.getChildren());
+            if(vbox.getChildren().contains(j3)){
+                listefield.add(j3);
+                System.out.println("DOZUDISudQODIO");
+            }
+            if(vbox.getChildren().contains(j4)){
+                listefield.add(j4);
+                System.out.println("pas du tt");
+            }
+            if(vbox.getChildren().contains(j5)){
+                listefield.add(j5);
+            }
             for(TextField txt : listefield){
                 nomsJoueurs.add(txt.getText());
+                System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
             }
             hide();
         });
