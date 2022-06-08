@@ -34,8 +34,8 @@ public class VueDestination extends HBox {
             de.setFont(Font.font("Georgia", 7));
         }
         else {
-            de.setPrefSize(300,60);
-            de.setMaxSize(300,60);
+            de.setPrefSize(300,40);
+            de.setMaxSize(300,40);
             de.setFont(Font.font("Georgia", 15));
             de.setAlignment(Pos.CENTER);
             //de.setOnMouseEntered(mouseEvent -> de.setStyle("-fx-background-color: white"));

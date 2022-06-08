@@ -22,14 +22,6 @@ import java.io.IOException;
  */
 public class VuePlateau extends Pane {
 
-    @FXML
-    ImageView image;
-    @FXML
-    private Group villes;
-    @FXML
-    private Group routes;
-
-
     public VuePlateau() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/plateau2.fxml"));
@@ -46,8 +38,15 @@ public class VuePlateau extends Pane {
         Node node = (Node) event.getSource();
         System.out.println("lala");
         ((VueDuJeu) getScene().getRoot()).getJeu().uneVilleOuUneRouteAEteChoisie(node.getId());
-
     }
+
+    @FXML
+    ImageView image;
+    @FXML
+    private Group villes;
+    @FXML
+    private Group routes;
+
 
 
     public void creerBindings() {

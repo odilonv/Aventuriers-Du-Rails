@@ -276,15 +276,6 @@ public class VueJoueurCourant extends GridPane {
                     };
                     ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().getValue().cartesWagonProperty().addListener(listChangeListener);
 
-                    ChangeListener<String> changeInstruction = new ChangeListener<String>() {
-                        @Override
-                        public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                            Platform.runLater(() -> {
-                            ((VueDuJeu) getScene().getRoot()).getInstructions().setText(t1.toUpperCase() + " :");
-                            });
-                        }
-                    };
-                    ((VueDuJeu) getScene().getRoot()).getJeu().instructionProperty().addListener(changeInstruction);
                 });
             }
         };

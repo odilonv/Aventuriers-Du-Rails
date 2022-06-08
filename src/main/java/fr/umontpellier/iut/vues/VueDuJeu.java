@@ -5,6 +5,8 @@ import fr.umontpellier.iut.IDestination;
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -132,9 +134,9 @@ public class VueDuJeu extends GridPane {
         RowConstraints premierl=new RowConstraints();
         RowConstraints deuxiemel=new RowConstraints();
         RowConstraints troisiemel=new RowConstraints();
-        premierl.setPercentHeight(10);
+        premierl.setPercentHeight(7);
         deuxiemel.setPercentHeight(80);
-        troisiemel.setPercentHeight(15);
+        troisiemel.setPercentHeight(20);
 
         getColumnConstraints().addAll(premiercol, deuxiemecol, troisiemecol);
         getRowConstraints().addAll(premierl,deuxiemel,troisiemel);
@@ -234,6 +236,16 @@ public class VueDuJeu extends GridPane {
                 });
                 }
             };
+        ChangeListener<String> changeInstruction = new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                Platform.runLater(() -> {
+                    instructions.setText(t1.toUpperCase() + " :");
+                    System.out.println("test");
+                });
+            }
+        };
+        jeu.instructionProperty().addListener(changeInstruction);
 
 
         jeu.cartesWagonVisiblesProperty().addListener(affichageCVisibles);

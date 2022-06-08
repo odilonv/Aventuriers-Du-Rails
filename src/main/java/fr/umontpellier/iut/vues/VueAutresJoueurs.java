@@ -49,93 +49,21 @@ public class VueAutresJoueurs extends HBox {
     public void creerBindings(){
         ChangeListener<IJoueur> changeInstruction = new ChangeListener<IJoueur>() {
             @Override
-            public void changed(ObservableValue<? extends IJoueur> observableValue, IJoueur s, IJoueur t1) {
+            public void changed(ObservableValue<? extends IJoueur> observableValue, IJoueur agr1, IJoueur agr2) {
                 Platform.runLater(() -> {
-
-                        if(listJoueurs.isEmpty()) {
+                        if(getChildren().isEmpty()) {
                             listJoueurs.addAll(((VueDuJeu) getScene().getRoot()).getJeu().getJoueurs());
-                            listbis.addAll(listJoueurs);
-                            for (int i = 0; i < listbis.size(); i++) {
-                                VBox perso = new VBox();
-                                Button button = new Button(listbis.get(i).getNom());
-                                button.setPrefSize(100,20);
-                                button.setStyle("-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, "+couleurEnglish(listbis.get(i).getCouleur().name())+", rgba(244,244,244,0)) ; -fx-text-fill: white");
+                            listJoueurs.remove(agr2);
 
-
-
-                                elements = new HBox();
-                                ImageView photoJoueur = new ImageView();
-                                photoJoueur.setPreserveRatio(true);
-                                photoJoueur.setFitHeight(80);
-
-                                DropShadow dropShadow = new DropShadow();
-                                dropShadow.setRadius(10.0);
-                                dropShadow.setOffsetX(0);
-                                dropShadow.setOffsetY(1.0);
-                                dropShadow.setColor(Color.web(couleurEnglish(listbis.get(i).getCouleur().name())));
-
-
-
-                                String n = ""+listbis.get(i).getNbWagons();
-                                Button nb= new Button(n);
-                                nb.setFont(Font.font("Georgia", 10));
-                                nb.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(listbis.get(i).getCouleur().name())+";");
-                                ImageView img = new ImageView("images/wagons/image-wagon-" + listbis.get(i).getCouleur().name() + ".png");
-                                img.setFitHeight(30);
-                                img.setPreserveRatio(true);
-                                Button bimg = new Button();
-                                bimg.setGraphic(img);
-                                bimg.setStyle("-fx-background-color: transparent");
-                                bimg.setOnMouseEntered(affichage -> bimg.setGraphic(nb));
-                                bimg.setOnMouseExited(affichage -> bimg.setGraphic(img));
-                                nb.setEffect(dropShadow);
-                                bimg.setEffect(dropShadow);
-
-                                String ns = "Score : "+listbis.get(i).getScore();
-                                Button nss= new Button(ns);
-                                nss.setFont(Font.font("Georgia", 10));
-                                nss.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(listbis.get(i).getCouleur().name())+";");
-                                nss.setEffect(dropShadow);
-
-                                String ng = ""+listbis.get(i).getNbGares();
-                                Button ngg= new Button(ng);
-                                ngg.setFont(Font.font("Georgia", 10));
-                                ngg.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(listbis.get(i).getCouleur().name())+";");
-                                ImageView imgg = new ImageView("images/gares/gare-" + listbis.get(i).getCouleur().name() + ".png");
-                                imgg.setFitHeight(30);
-                                imgg.setPreserveRatio(true);
-                                Button bimgg = new Button();
-                                bimgg.setGraphic(imgg);
-                                bimgg.setStyle("-fx-background-color: transparent");
-                                bimgg.setOnMouseEntered(affichage -> bimgg.setGraphic(ngg));
-                                bimgg.setOnMouseExited(affichage -> bimgg.setGraphic(imgg));
-                                ngg.setEffect(dropShadow);
-                                bimgg.setEffect(dropShadow);
-
-
-
-                                Image i1 = new Image("images/personnages/avatar-" + listbis.get(i).getCouleur().name() + ".png");
-
-                                photoJoueur.setImage(i1);
-                                VBox vBox = new VBox();
-                                vBox.getChildren().addAll(bimg,bimgg);
-                                elements.getChildren().addAll(photoJoueur,vBox);
-
-                                perso.getChildren().addAll(elements,button,nss);
-                                perso.setSpacing(10);
-
-
-
-
-
-
-
-
-
-                                //if (!Objects.equals(t1.getNom(), listbis.get(i).getNom())) {
-                                    getChildren().add(perso);
-                                //}
+                            for (int i = 0; i < listJoueurs.size(); i++) {
+                                panneauJoueur(listJoueurs.get(i));
+                                getChildren().add(panneauJoueur(listJoueurs.get(i)));
                             }
+                        }
+                        else{
+
+                            getChildren().remove(0);
+                            getChildren().add(panneauJoueur(agr1));
                         }
 
 
@@ -143,20 +71,86 @@ public class VueAutresJoueurs extends HBox {
 
 
 
-                        //getChildren().get(0).setOpacity(0);
+                        /*
                         getChildren().add(getChildren().remove(0));
                         getChildren().get(getChildren().size()-1).setOpacity(0);
-                        getChildren().get(getChildren().size()-2).setOpacity(100);
-                    //getChildren().add(getChildren().remove(0));
-                    //getChildren().get(getChildren().size()-1).setOpacity(100);
+                        getChildren().get(getChildren().size()-2).setOpacity(100);*/
 
-
-                    // JOUEUR COURANT t1
 
                 });
             }
         };
         ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().addListener(changeInstruction);
+    }
+
+    public VBox panneauJoueur(IJoueur j1){
+        VBox perso = new VBox();
+        perso.setPrefSize(100,80);
+        perso.setMaxSize(100,80);
+        Button button = new Button(j1.getNom());
+        button.setPrefSize(100,20);
+        button.setStyle("-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, "+couleurEnglish(j1.getCouleur().name())+", rgba(244,244,244,0)) ; -fx-text-fill: white");
+        elements = new HBox();
+        ImageView photoJoueur = new ImageView();
+        photoJoueur.setPreserveRatio(true);
+        photoJoueur.setFitHeight(80);
+
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(1.0);
+        dropShadow.setColor(Color.web(couleurEnglish(j1.getCouleur().name())));
+
+
+
+        String n = ""+j1.getNbWagons();
+        Button nb= new Button(n);
+        nb.setFont(Font.font("Georgia", 10));
+        nb.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(j1.getCouleur().name())+";");
+        ImageView img = new ImageView("images/wagons/image-wagon-" + j1.getCouleur().name() + ".png");
+        img.setFitHeight(30);
+        img.setPreserveRatio(true);
+        Button bimg = new Button();
+        bimg.setGraphic(img);
+        bimg.setStyle("-fx-background-color: transparent");
+        bimg.setOnMouseEntered(affichage -> bimg.setGraphic(nb));
+        bimg.setOnMouseExited(affichage -> bimg.setGraphic(img));
+        nb.setEffect(dropShadow);
+        bimg.setEffect(dropShadow);
+
+        String ns = "Score : "+j1.getScore();
+        Button nss= new Button(ns);
+        nss.setFont(Font.font("Georgia", 10));
+        nss.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(j1.getCouleur().name())+";");
+        nss.setEffect(dropShadow);
+
+        String ng = ""+j1.getNbGares();
+        Button ngg= new Button(ng);
+        ngg.setFont(Font.font("Georgia", 10));
+        ngg.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(j1.getCouleur().name())+";");
+        ImageView imgg = new ImageView("images/gares/gare-" + j1.getCouleur().name() + ".png");
+        imgg.setFitHeight(30);
+        imgg.setPreserveRatio(true);
+        Button bimgg = new Button();
+        bimgg.setGraphic(imgg);
+        bimgg.setStyle("-fx-background-color: transparent");
+        bimgg.setOnMouseEntered(affichage -> bimgg.setGraphic(ngg));
+        bimgg.setOnMouseExited(affichage -> bimgg.setGraphic(imgg));
+        ngg.setEffect(dropShadow);
+        bimgg.setEffect(dropShadow);
+
+
+
+        Image i1 = new Image("images/personnages/avatar-" + j1.getCouleur().name() + ".png");
+
+        photoJoueur.setImage(i1);
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(bimg,bimgg);
+        elements.getChildren().addAll(photoJoueur,vBox);
+
+        perso.getChildren().addAll(elements,button,nss);
+        perso.setSpacing(10);
+        return perso;
     }
 
 

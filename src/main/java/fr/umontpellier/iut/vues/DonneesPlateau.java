@@ -10,12 +10,12 @@ public final class DonneesPlateau {
     private final static Map<String, DonneesLayout> villes;
 
     public static final double largeurInitialePlateau = 1701.0,
-                               hauteurInitialePlateau = 1097.0,
-                               largeurRectangle = 60,
-                               hauteurRectangle = 20,
-                               xInitial = -30,
-                               yInitial = -10,
-                               rayonInitial = 12;
+            hauteurInitialePlateau = 1097.0,
+            largeurRectangle = 60,
+            hauteurRectangle = 20,
+            xInitial = -30,
+            yInitial = -10,
+            rayonInitial = 12;
 
     static {
         routes = new HashMap<>();
