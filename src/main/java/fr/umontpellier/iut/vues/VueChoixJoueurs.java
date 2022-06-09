@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -62,19 +63,27 @@ public class VueChoixJoueurs extends Stage {
         passer.setOnMouseExited(mouseEvent -> {passer.setPrefSize(400,80);passer.setStyle("-fx-background-color: #F7E6BC");});
 
         start.setAlignment(Pos.CENTER);
-        start.setFont(Font.font("Georgia", 20));
-        start.setStyle("-fx-border-color: green");
-        start.setStyle("-fx-background-color: #0AD200");
+        start.setFont(Font.font("Georgia", 32));
+        //start.setStyle("-fx-border-color: green");
+        start.setStyle("-fx-background-color: #F5E9D7 ; -fx-text-fill: black");
         DropShadow dp = new DropShadow();
         dp.setRadius(20.0);
         dp.setOffsetX(0);
         dp.setOffsetY(1.0);
         dp.setColor(Color.RED);
 
-        start.setEffect(dropShadow);
-        start.setPrefSize(300,80);
-        start.setOnMouseEntered(mouseEvent -> {start.setPrefSize(360,120);start.setStyle("-fx-background-color: #2EE800");});
-        start.setOnMouseExited(mouseEvent -> {start.setPrefSize(300,80);start.setStyle("-fx-background-color: #2EE800");});
+        //start.setEffect(dropShadow);
+        start.setPrefSize(400,120);
+        DropShadow aa = new DropShadow();
+        aa.setRadius(20);
+        aa.setOffsetX(0);
+        aa.setOffsetY(1.0);
+        aa.setColor(Color.WHITE);
+
+
+        start.setEffect(aa);
+        start.setOnMouseEntered(mouseEvent -> {start.setPrefSize(500,120);start.setStyle("-fx-background-color: white");});
+        start.setOnMouseExited(mouseEvent -> {start.setPrefSize(400,120);start.setStyle("-fx-background-color: #F5E9D7");});
 
         ImageView img = new ImageView("images/croix.png");
         retirer.setAlignment(Pos.CENTER);
@@ -142,11 +151,12 @@ public class VueChoixJoueurs extends Stage {
         j4.setFont(Font.font("Georgia", 30));
         j5.setFont(Font.font("Georgia", 30));
 
-        j1.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ;-fx-background-color: rgba(255, 255, 255, .4);-fx-opacity: 0.2");
-        j2.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ;");
-        j3.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ;");
-        j4.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ;");
-        j5.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ;");
+        j1.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ; -fx-background-color: linear-gradient(from 100% 50% to 20% 100%, green, rgba(244,244,244,0))");
+        j2.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ; -fx-background-color: linear-gradient(from 100% 50% to 20% 100%, blue, rgba(244,244,244,0))");
+        j3.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ; -fx-background-color: linear-gradient(from 100% 50% to 20% 100%, yellow, rgba(244,244,244,0))");
+        j4.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ; -fx-background-color: linear-gradient(from 100% 50% to 20% 100%, red, rgba(244,244,244,0))");
+        j5.setStyle("-fx-text-inner-color: #F5E9D7;-fx-border-color: #F5E9D7; -fx-border-width: 2px ; -fx-background-color: linear-gradient(from 100% 50% to 20% 100%, pink, rgba(244,244,244,0))");
+
 
 
         Button espace = new Button("espace");
