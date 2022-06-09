@@ -54,13 +54,13 @@ public class VueChoixJoueurs extends Stage {
         dropShadow.setOffsetY(1.0);
         dropShadow.setColor(Color.web("#F7E6BC"));
         passer.setAlignment(Pos.CENTER);
-        passer.setFont(Font.font("Georgia", 20));
+        passer.setFont(Font.font("Georgia", 22));
         passer.setStyle("-fx-border-color: yellow");
         passer.setStyle("-fx-background-color: #F7E6BC");
         passer.setEffect(dropShadow);
-        passer.setPrefSize(400,80);
-        passer.setOnMouseEntered(mouseEvent -> {passer.setPrefSize(402,82);passer.setStyle("-fx-background-color: #F5E9D7");});
-        passer.setOnMouseExited(mouseEvent -> {passer.setPrefSize(400,80);passer.setStyle("-fx-background-color: #F7E6BC");});
+        passer.setPrefSize(370,80);
+        passer.setOnMouseEntered(mouseEvent -> {passer.setPrefSize(372,82);passer.setStyle("-fx-background-color: #F5E9D7");});
+        passer.setOnMouseExited(mouseEvent -> {passer.setPrefSize(370,80);passer.setStyle("-fx-background-color: #F7E6BC");});
 
         start.setAlignment(Pos.CENTER);
         start.setFont(Font.font("Georgia", 32));
@@ -116,7 +116,7 @@ public class VueChoixJoueurs extends Stage {
         RowConstraints deuxiemel=new RowConstraints();
         RowConstraints troisiemel=new RowConstraints();
         premierl.setPercentHeight(20);
-        deuxiemel.setPercentHeight(80);
+        deuxiemel.setPercentHeight(85);
         troisiemel.setPercentHeight(25);
 
 
@@ -219,33 +219,33 @@ public class VueChoixJoueurs extends Stage {
             }
         });
         System.out.println(vbox.getChildren());
-            retirer.setOnMouseClicked(eve -> {
-                if(vbox.getChildren().contains(j5)){
-                    hbox.getChildren().remove(retirer);
-                    if(!hbox.getChildren().contains(passer)) {
-                        hbox.getChildren().add(passer);
-                    }
-                    hbox.getChildren().add(retirer);
-                    passer.setOpacity(100);
-                    vbox.getChildren().remove(j5);
-                    j5.setText("");
+        retirer.setOnMouseClicked(eve -> {
+            if(vbox.getChildren().contains(j5)){
+                hbox.getChildren().remove(retirer);
+                if(!hbox.getChildren().contains(passer)) {
+                    hbox.getChildren().add(passer);
                 }
-                else if(vbox.getChildren().contains(j4)){
-                    vbox.getChildren().remove(j4);
-                    j4.setText("");
-                }
-                else if(vbox.getChildren().contains(j3)){
-                    vbox.getChildren().remove(j3);
-                    j3.setText("");
-                }
-                else if(vbox.getChildren().contains(j2)){
-                    vbox.getChildren().remove(j2);
-                    j2.setText("");
-                    hbox.getChildren().remove(retirer);
-                    retirer.setOpacity(0);
-                    hstart.getChildren().remove(start);
+                hbox.getChildren().add(retirer);
+                passer.setOpacity(100);
+                vbox.getChildren().remove(j5);
+                j5.setText("");
+            }
+            else if(vbox.getChildren().contains(j4)){
+                vbox.getChildren().remove(j4);
+                j4.setText("");
+            }
+            else if(vbox.getChildren().contains(j3)){
+                vbox.getChildren().remove(j3);
+                j3.setText("");
+            }
+            else if(vbox.getChildren().contains(j2)){
+                vbox.getChildren().remove(j2);
+                j2.setText("");
+                hbox.getChildren().remove(retirer);
+                retirer.setOpacity(0);
+                hstart.getChildren().remove(start);
 
-                }
+            }
 
 
         });
