@@ -47,6 +47,7 @@ public class VueChoixJoueurs extends Stage {
         nomsJoueurs = FXCollections.observableArrayList();
         Button passer = new Button("Ajouter un joueur");
         setMaximized(true);
+        centerOnScreen();
 
         Button start = new Button("JOUER");
         DropShadow dropShadow = new DropShadow();
@@ -103,7 +104,7 @@ public class VueChoixJoueurs extends Stage {
         BackgroundImage bImg = new BackgroundImage(bg,
                 BackgroundRepeat.REPEAT,
                 BackgroundRepeat.REPEAT,
-                BackgroundPosition.CENTER,
+                BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         Background bGround = new Background(bImg);
         gridPane.setBackground(bGround);
@@ -201,9 +202,7 @@ public class VueChoixJoueurs extends Stage {
             else if(!vbox.getChildren().contains(j3)) {
                 vbox.getChildren().remove(hbox);
                 vbox.getChildren().remove(espace);
-                System.out.println("avant" + vbox.getChildren());
                 vbox.getChildren().addAll(j3,espace,hbox);
-                System.out.println("apres" + vbox.getChildren());
             }
             else if(!vbox.getChildren().contains(j4)){
                 vbox.getChildren().removeAll(espace,hbox);
@@ -217,7 +216,6 @@ public class VueChoixJoueurs extends Stage {
                 hbox.getChildren().remove(passer);
             }
         });
-        System.out.println(vbox.getChildren());
         retirer.setOnMouseClicked(eve -> {
             if(vbox.getChildren().contains(j5)){
                 hbox.getChildren().remove(retirer);
@@ -253,24 +251,19 @@ public class VueChoixJoueurs extends Stage {
             ArrayList<TextField> listefield = new ArrayList<>();
             listefield.add(j1);
             listefield.add(j2);
-            System.out.println(listefield);
-            System.out.println(vbox.getChildren());
             if(vbox.getChildren().contains(j3)){
                 listefield.add(j3);
-                System.out.println("DOZUDISudQODIO");
             }
             if(vbox.getChildren().contains(j4)){
                 listefield.add(j4);
-                System.out.println("pas du tt");
             }
             if(vbox.getChildren().contains(j5)){
                 listefield.add(j5);
             }
             for(TextField txt : listefield){
                 nomsJoueurs.add(txt.getText());
-                System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
             }
-            hide();
+            close();
         });
 
 
@@ -307,7 +300,7 @@ public class VueChoixJoueurs extends Stage {
                 tempNamesList.add(name);
         }
         if (!tempNamesList.isEmpty()) {
-            hide();
+            close();
             nomsJoueurs.clear();
             nomsJoueurs.addAll(tempNamesList);
         }

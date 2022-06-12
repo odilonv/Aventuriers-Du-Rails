@@ -111,15 +111,17 @@ public class VuePlateau extends Pane {
                 Circle c = (Circle) p;
                 Platform.runLater(() -> {
                     ImageView image = new ImageView("images/gares/gare-" + j.getCouleur() + ".png");
+                    image.setEffect(new DropShadow(10, Color.BLACK));
                     image.setPreserveRatio(true);
-                    image.setFitHeight(27);
-                    image.setEffect(new DropShadow(20, Color.BLACK));
-                    image.layoutXProperty().bind(c.layoutXProperty().divide(1.02));
-                    image.layoutYProperty().bind(c.layoutYProperty().divide(1.06));
+                    image.setFitHeight(25);
+
                     image.xProperty().bind(c.centerXProperty());
                     image.yProperty().bind(c.centerYProperty());
-                    image.translateXProperty().bind(c.translateXProperty().divide(1.06));
-                    image.translateYProperty().bind(c.translateYProperty().divide(1.06));
+                    image.layoutXProperty().bind(c.layoutXProperty().divide(1.02));
+                    image.layoutYProperty().bind(c.layoutYProperty().divide(1.07));
+                    image.translateXProperty().bind(c.translateXProperty().divide(1.07));
+                    image.translateYProperty().bind(c.translateYProperty().divide(1.07));
+
                     getChildren().add(image);
                 });
                 break;

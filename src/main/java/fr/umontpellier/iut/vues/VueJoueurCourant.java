@@ -118,6 +118,7 @@ public class VueJoueurCourant extends GridPane {
         elements = new HBox();
         elements.setPrefSize(400,400);
         elements.setMaxSize(400,400);
+        elements.setSpacing(5);
         //HBox.setHgrow(elements, Priority.ALWAYS);
         destinations.getChildren().addAll(elements,hbscore);
 
@@ -223,7 +224,7 @@ public class VueJoueurCourant extends GridPane {
                     nb.setFont(Font.font("Georgia", 25));
                     nb.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(t1.getCouleur().name())+";");
                     ImageView img = new ImageView("images/wagons/image-wagon-" + t1.getCouleur().name() + ".png");
-                    img.setFitHeight(60);
+                    img.setFitHeight(20);
                     img.setPreserveRatio(true);
                     Button bimg = new Button();
                     bimg.setGraphic(img);
@@ -287,7 +288,7 @@ public class VueJoueurCourant extends GridPane {
                         @Override
                         public void onChanged(Change<? extends ICouleurWagon> change) {
                             Platform.runLater(() -> {
-                                while (change.next()) {
+                                if (change.next()) {
                                     if (change.wasAdded() && !change.getAddedSubList().isEmpty()) {
                                         VueCarteWagon vue = new VueCarteWagon(change.getAddedSubList().get(0));
                                         if(t1.cartesWagonProperty().size()<9) {

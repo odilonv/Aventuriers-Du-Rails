@@ -12,9 +12,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -39,7 +37,7 @@ public class VueAutresJoueurs extends HBox {
     public VueAutresJoueurs(){
         listJoueurs = new ArrayList<>();
         listbis = new ArrayList<>();
-        setAlignment(Pos.CENTER_RIGHT);
+        setAlignment(Pos.CENTER_LEFT);
         setSpacing(5);
 
 
@@ -83,8 +81,9 @@ public class VueAutresJoueurs extends HBox {
         ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().addListener(changeInstruction);
     }
 
-    public VBox panneauJoueur(IJoueur j1){
+    public HBox panneauJoueur(IJoueur j1){
         VBox perso = new VBox();
+        HBox persoWInfos = new HBox();
         perso.setPrefSize(100,80);
         perso.setMaxSize(100,80);
         Button button = new Button(j1.getNom());
@@ -140,6 +139,7 @@ public class VueAutresJoueurs extends HBox {
         ngg.setEffect(dropShadow);
         bimgg.setEffect(dropShadow);
         */
+
         ImageView fleimg = new ImageView("images/elements/fleche.png");
         fleimg.setFitHeight(30);
         fleimg.setPreserveRatio(true);
@@ -148,20 +148,105 @@ public class VueAutresJoueurs extends HBox {
         butfle.setGraphic(fleimg);
         fleimg.setEffect(dropShadow);
 
+        VBox vBox = new VBox();
+        vBox.getChildren().add(butfle);
+
+        DropShadow dpGW = new DropShadow();
+        dpGW.setRadius(15);
+        dpGW.setOffsetX(0);
+        dpGW.setOffsetY(1.0);
+        dpGW.setColor(Color.BLACK);
+
+        HBox infos = new HBox();
+        infos.setPrefSize(530,300);
+        infos.setStyle("-fx-background-color: linear-gradient(from 50% 10% to 100% 80%, "+couleurEnglish(j1.getCouleur().name())+", rgba(244,244,244,0))");
+
+        VBox garesEtWagons = new VBox();
+        VBox gares = new VBox();
+        gares.setAlignment(Pos.CENTER);
+        Button nbGares = new Button(j1.getNbGares()+ " x");
+        nbGares.setFont(Font.font("Georgia", 20));
+        nbGares.setStyle("-fx-background-color: transparent ; -fx-text-fill: black;");
+        ImageView imgGare = new ImageView("images/gares/gare-" + j1.getCouleur().name() + ".png");
+        imgGare.setFitHeight(20);
+        imgGare.setPreserveRatio(true);
+        gares.getChildren().addAll(nbGares,imgGare);
+        garesEtWagons.getChildren().add(gares);
+
+        VBox wagons = new VBox();
+        wagons.setAlignment(Pos.CENTER);
+        Button nbWagons = new Button(j1.getNbWagons()+ " x");
+        nbWagons.setFont(Font.font("Georgia", 20));
+        nbWagons.setStyle("-fx-background-color: transparent ; -fx-text-fill: black;");
+        ImageView imgWagon = new ImageView("images/wagons/image-wagon-" + j1.getCouleur().name() + ".png");
+        imgWagon.setFitHeight(10);
+        imgWagon.setPreserveRatio(true);
+        wagons.getChildren().addAll(nbWagons,imgWagon);
+        garesEtWagons.getChildren().add(wagons);
+        garesEtWagons.setEffect(dpGW);
+        garesEtWagons.setSpacing(30);
+
+        VBox cartes = new VBox();
+        HBox cartes1 = new HBox();
+        HBox cartes2 = new HBox();
+        HBox cartes3 = new HBox();
+        HBox cartes4 = new HBox();
+        HBox cartes5 = new HBox();
+
+
+
+        for (int i = 0; i < j1.cartesWagonProperty().size(); i++) {
+            VueCarteWagon vue = new VueCarteWagon(j1.cartesWagonProperty().get(i));
+            vue.getImageView().setFitHeight(30);
+            vue.getImageView().setPreserveRatio(true);
+            if(i<7){
+                cartes1.getChildren().add(vue);
+            }
+            else if(i<14){
+                cartes2.getChildren().add(vue);
+            }
+            else if(i<21){
+                cartes3.getChildren().add(vue);
+            }
+            else if(i<28){
+                cartes4.getChildren().add(vue);
+            }
+            else{
+                cartes5.getChildren().add(vue);
+            }
+        }
+        cartes.getChildren().addAll(cartes1,cartes2,cartes3,cartes4,cartes5);
+
+        infos.getChildren().addAll(garesEtWagons, cartes);
+        infos.setSpacing(10);
+
+
+        butfle.setOnMouseEntered(event -> {
+            persoWInfos.getChildren().add(infos);
+            ((VueDuJeu) getScene().getRoot()).getCartesVisibles().setOpacity(0);
+            ((VueDuJeu) getScene().getRoot()).getDestinations().setOpacity(0);
+
+        });
+        butfle.setOnMouseExited(event -> {
+            persoWInfos.getChildren().remove(infos);
+            ((VueDuJeu) getScene().getRoot()).getCartesVisibles().setOpacity(100);
+            ((VueDuJeu) getScene().getRoot()).getDestinations().setOpacity(100);
+        });
+
 
 
 
         Image i1 = new Image("images/personnages/avatar-" + j1.getCouleur().name() + ".png");
 
         photoJoueur.setImage(i1);
-        VBox vBox = new VBox();
-        vBox.getChildren().add(butfle);
+
         elements.getChildren().addAll(photoJoueur,vBox);
 
         perso.getChildren().addAll(elements,button,nss);
         perso.setAlignment(Pos.CENTER);
         perso.setSpacing(10);
-        return perso;
+        persoWInfos.getChildren().add(perso);
+        return persoWInfos;
     }
 
 

@@ -146,6 +146,7 @@ public class VueDuJeu extends GridPane {
         //add(passer,2,1);
         add(joueurCourant,0,1);
         add(autresJoueurs, 0,2);
+        setColumnSpan(autresJoueurs,2);
         add(plateau,1,1);
         add(pioches, 2,1);
         add(cartesVisibles,1,2);
