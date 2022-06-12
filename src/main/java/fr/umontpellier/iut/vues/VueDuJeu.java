@@ -63,7 +63,7 @@ public class VueDuJeu extends GridPane {
 
         destinations= new HBox();
         destinations.setSpacing(10);
-        destinations.setAlignment(Pos.CENTER);
+        destinations.setAlignment(Pos.CENTER_RIGHT);
         passer = new Button("PASSER\nSON\nTOUR");
         joueurCourant = new VueJoueurCourant();
         autresJoueurs = new VueAutresJoueurs();
@@ -184,7 +184,7 @@ public class VueDuJeu extends GridPane {
                             for (IDestination d : change.getAddedSubList()) {
                                 //System.out.println(d.getNom() + " a ete ajoute");
                                 VueDestination vueDestination = new VueDestination(d,true);
-                                vueDestination.setAlignment(Pos.TOP_RIGHT);
+
                                 vueDestination.getDe().setOnMouseEntered(mouseEvent -> vueDestination.getDe().setStyle("-fx-background-color: white"));
                                 vueDestination.getDe().setOnMouseExited(mouseEvent -> vueDestination.getDe().setStyle("-fx-background-color: #F7E6BC"));
                                 vueDestination.getDe().setOnMouseClicked(destinations -> jeu.destinationsInitialesProperty().remove(trouveLabelDestination(d)));

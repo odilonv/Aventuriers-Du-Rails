@@ -101,8 +101,13 @@ public class VueAutresJoueurs extends HBox {
         dropShadow.setOffsetY(1.0);
         dropShadow.setColor(Color.web(couleurEnglish(j1.getCouleur().name())));
 
+        String ns = "Score : "+j1.getScore();
+        Button nss= new Button(ns);
+        nss.setFont(Font.font("Georgia", 10));
+        nss.setStyle("-fx-background-color: linear-gradient(from 0% 100% to 0% 80%, "+couleurEnglish(j1.getCouleur().name())+", rgba(244,244,244,0)); -fx-text-fill: white");
+        nss.setEffect(dropShadow);
 
-
+        /*
         String n = ""+j1.getNbWagons();
         Button nb= new Button(n);
         nb.setFont(Font.font("Georgia", 10));
@@ -118,11 +123,7 @@ public class VueAutresJoueurs extends HBox {
         nb.setEffect(dropShadow);
         bimg.setEffect(dropShadow);
 
-        String ns = "Score : "+j1.getScore();
-        Button nss= new Button(ns);
-        nss.setFont(Font.font("Georgia", 10));
-        nss.setStyle("-fx-background-color: linear-gradient(from 0% 100% to 0% 80%, "+couleurEnglish(j1.getCouleur().name())+", rgba(244,244,244,0)); -fx-text-fill: white");
-        nss.setEffect(dropShadow);
+
 
         String ng = ""+j1.getNbGares();
         Button ngg= new Button(ng);
@@ -138,6 +139,15 @@ public class VueAutresJoueurs extends HBox {
         bimgg.setOnMouseExited(affichage -> bimgg.setGraphic(imgg));
         ngg.setEffect(dropShadow);
         bimgg.setEffect(dropShadow);
+        */
+        ImageView fleimg = new ImageView("images/elements/fleche.png");
+        fleimg.setFitHeight(30);
+        fleimg.setPreserveRatio(true);
+        Button butfle = new Button();
+        butfle.setStyle("-fx-background-color: transparent");
+        butfle.setGraphic(fleimg);
+        fleimg.setEffect(dropShadow);
+
 
 
 
@@ -145,7 +155,7 @@ public class VueAutresJoueurs extends HBox {
 
         photoJoueur.setImage(i1);
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(bimg,bimgg);
+        vBox.getChildren().add(butfle);
         elements.getChildren().addAll(photoJoueur,vBox);
 
         perso.getChildren().addAll(elements,button,nss);

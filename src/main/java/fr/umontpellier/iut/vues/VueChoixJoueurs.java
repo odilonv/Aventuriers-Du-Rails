@@ -46,6 +46,7 @@ public class VueChoixJoueurs extends Stage {
         Button retirer = new Button();
         nomsJoueurs = FXCollections.observableArrayList();
         Button passer = new Button("Ajouter un joueur");
+        setMaximized(true);
 
         Button start = new Button("JOUER");
         DropShadow dropShadow = new DropShadow();
