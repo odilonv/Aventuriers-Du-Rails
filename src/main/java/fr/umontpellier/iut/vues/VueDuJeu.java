@@ -53,9 +53,9 @@ public class VueDuJeu extends GridPane {
 
         Image bg = new Image("images/backgrounds/LUI.jpg");
         BackgroundImage bImg = new BackgroundImage(bg,
-                BackgroundRepeat.REPEAT,
-                BackgroundRepeat.REPEAT,
-                BackgroundPosition.CENTER,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         Background bGround = new Background(bImg);
         setBackground(bGround);
@@ -241,8 +241,7 @@ public class VueDuJeu extends GridPane {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 Platform.runLater(() -> {
-                    instructions.setText(t1.toUpperCase() + " :");
-                    System.out.println("test");
+                    instructions.setText(t1.toUpperCase());
                 });
             }
         };
@@ -264,6 +263,17 @@ public class VueDuJeu extends GridPane {
         plateau.creerBindings();
 
 
+    }
+
+    public String couleurEnglish(String c) {
+        return switch (c) {
+            case "ROUGE" -> "red";
+            case "BLEU" -> "blue";
+            case "JAUNE" -> "yellow";
+            case "ROSE" -> "pink";
+            case "VERT" -> "green";
+            default -> "";
+        };
     }
 
 

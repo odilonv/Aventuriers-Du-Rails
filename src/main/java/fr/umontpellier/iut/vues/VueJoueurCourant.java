@@ -35,6 +35,9 @@ import java.util.List;
 public class VueJoueurCourant extends GridPane {
     private Label nomJoueur;
     private Label fondnomJ;
+    private Label score;
+    private Label nbscore;
+    private HBox hbscore;
 
     private VBox cartesG;
     private VBox cartesD;
@@ -60,6 +63,16 @@ public class VueJoueurCourant extends GridPane {
         nomJoueur = new Label();
         nomJoueur.setFont(Font.font("Georgia", 30));
         nomJoueur.setStyle("-fx-text-fill: white");
+
+        score = new Label("SCORE :");
+        score.setFont(Font.font("Georgia", 10));
+        score.setStyle("-fx-text-fill: white");
+        nbscore = new Label();
+        nbscore.setFont(Font.font("Georgia", 12));
+        nbscore.setStyle("-fx-text-fill: white");
+        hbscore = new HBox();
+        hbscore.getChildren().addAll(score,nbscore);
+        hbscore.setAlignment(Pos.BOTTOM_CENTER);
 
         //nomJoueur.setFont(Font.loadFont("file:resources/fonts/IMFellEnglishSC-Regular.ttf", 30));
 
@@ -97,14 +110,16 @@ public class VueJoueurCourant extends GridPane {
         inventaire.add(cartesDD,2,0);
 
         destinations = new VBox();
-        destinations.setAlignment(Pos.BOTTOM_CENTER);
+        destinations.setAlignment(Pos.CENTER);
         destinations.setSpacing(5);
+
+
 
         elements = new HBox();
         elements.setPrefSize(400,400);
         elements.setMaxSize(400,400);
         //HBox.setHgrow(elements, Priority.ALWAYS);
-        destinations.getChildren().add(elements);
+        destinations.getChildren().addAll(elements,hbscore);
 
         infosJoueurs = new GridPane();
         ColumnConstraints col1infos = new ColumnConstraints();
@@ -120,7 +135,7 @@ public class VueJoueurCourant extends GridPane {
         //elements.setAlignment(Pos.CENTER);
         elements.setAlignment(Pos.CENTER_RIGHT);
         elements.setPadding(new Insets(0, 0, 0, 0));
-        infosJoueurs.setAlignment(Pos.BOTTOM_RIGHT);
+        infosJoueurs.setAlignment(Pos.BOTTOM_CENTER);
         infosJoueurs.getColumnConstraints().add(col1infos);
         //infosJoueurs.getRowConstraints().addAll(row1infos,row2infos);
         infosJoueurs.add(destinations,1,3);
@@ -177,6 +192,9 @@ public class VueJoueurCourant extends GridPane {
                     ((VueDuJeu) getScene().getRoot()).getCartesVisibles().toFront();
                     ((VueDuJeu) getScene().getRoot()).getCartesVisibles().setOpacity(100);
 
+
+                    ((VueDuJeu) getScene().getRoot()).getInstructions().setStyle("-fx-background-color: linear-gradient(from 0% 100% to 0% 80%, "+couleurEnglish(t1.getCouleur().name())+", rgba(244,244,244,0)); -fx-text-fill: white");
+
                     DropShadow dropShadow = new DropShadow();
                     dropShadow.setRadius(10.0);
                     dropShadow.setOffsetX(0);
@@ -187,6 +205,15 @@ public class VueJoueurCourant extends GridPane {
                     //scrollPane.setStyle("-fx-background-opacity: 0.5");
                     fondnomJ.setText(t1.getNom());
                     nomJoueur.setText(t1.getNom());
+                    score.setStyle("-fx-background-color: transparent; -fx-text-fill: white");
+                    score.setEffect(dropShadow);
+                    DropShadow dipi = new DropShadow();
+                    dipi.setRadius(20.0);
+                    dipi.setOffsetX(0);
+                    dipi.setOffsetY(1.0);
+                    dipi.setColor(Color.WHITE);
+                    nbscore.setText("     "+t1.getScore());
+                    nbscore.setEffect(dipi);
                     fondnomJ.setStyle("-fx-text-fill:" + couleurEnglish(t1.getCouleur().name()));
                     nomJoueur.setStyle("-fx-text-fill:" + couleurEnglish(t1.getCouleur().name()));
                     elements.getChildren().clear();
@@ -227,10 +254,13 @@ public class VueJoueurCourant extends GridPane {
                     destinations.getChildren().clear();
                     for(int i=0;i<t1.getDestinations().size();i++){
                         VueDestination vueDestination = new VueDestination(t1.getDestinations().get(i),false );
-                        vueDestination.getDe().setStyle("-fx-background-color: white; -fx-text-fill:black");
+                        vueDestination.getDe().setStyle("-fx-background-color: linear-gradient(from 0% 100% to 0% 80%, "+couleurEnglish(t1.getCouleur().name())+", rgba(244,244,244,0)); -fx-text-fill: white");
                         vueDestination.setEffect(dropShadow);
+                        destinations.setStyle("-fx-background-color: linear-gradient(from 50% 50% to 0% 100%, black, rgba(244,244,244,0));");
                         destinations.getChildren().add(vueDestination);
                     }
+                    destinations.getChildren().add(hbscore);
+
 
                     Image i1 = new Image("images/personnages/avatar-" + t1.getCouleur().name() + ".png");
                     fondphotoJ.setImage(i1);

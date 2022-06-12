@@ -125,8 +125,6 @@ public class VueChoixJoueurs extends Stage {
         gridPane.add(vbox, 1, 1);
 
 
-
-        setMaximized(true);
         Scene s1 = new Scene(gridPane);
         vbox.setAlignment(Pos.TOP_CENTER);
 

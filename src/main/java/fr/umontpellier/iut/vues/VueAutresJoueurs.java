@@ -121,7 +121,7 @@ public class VueAutresJoueurs extends HBox {
         String ns = "Score : "+j1.getScore();
         Button nss= new Button(ns);
         nss.setFont(Font.font("Georgia", 10));
-        nss.setStyle("-fx-background-color: transparent ; -fx-text-fill: "+couleurEnglish(j1.getCouleur().name())+";");
+        nss.setStyle("-fx-background-color: linear-gradient(from 0% 100% to 0% 80%, "+couleurEnglish(j1.getCouleur().name())+", rgba(244,244,244,0)); -fx-text-fill: white");
         nss.setEffect(dropShadow);
 
         String ng = ""+j1.getNbGares();
@@ -149,6 +149,7 @@ public class VueAutresJoueurs extends HBox {
         elements.getChildren().addAll(photoJoueur,vBox);
 
         perso.getChildren().addAll(elements,button,nss);
+        perso.setAlignment(Pos.CENTER);
         perso.setSpacing(10);
         return perso;
     }
