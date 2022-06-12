@@ -28,6 +28,7 @@ public class RailsIHM extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        //primaryStage.setMaximized(true);
         if (avecVueChoixJoueurs) {
             vueChoixJoueurs = new VueChoixJoueurs();
             vueChoixJoueurs.setNomsDesJoueursDefinisListener(quandLesNomsJoueursSontDefinis);
@@ -56,7 +57,6 @@ public class RailsIHM extends Application {
         demarrerServiceJeu(); // le service doit être démarré après que les bindings ont été mis en place
 
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
         primaryStage.setTitle("Rails");
         primaryStage.centerOnScreen();
         primaryStage.setOnCloseRequest(event -> {
@@ -70,6 +70,8 @@ public class RailsIHM extends Application {
         if (serviceDuJeu.getState() == Worker.State.READY) {
             serviceDuJeu.start();
         }
+        Platform.runLater(() -> { primaryStage.setMaximized(true);
+        });
         primaryStage.show();
     }
 

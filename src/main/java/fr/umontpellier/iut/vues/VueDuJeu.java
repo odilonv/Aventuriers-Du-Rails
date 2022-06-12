@@ -51,6 +51,7 @@ public class VueDuJeu extends GridPane {
         this.jeu = jeu;
         plateau = new VuePlateau();
 
+
         Image bg = new Image("images/backgrounds/LUI.jpg");
         BackgroundImage bImg = new BackgroundImage(bg,
                 BackgroundRepeat.NO_REPEAT,
